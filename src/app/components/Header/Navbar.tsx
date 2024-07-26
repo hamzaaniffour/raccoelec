@@ -1,8 +1,8 @@
-import Link from 'next/link'
-import React from 'react'
-import Logo from './Logo'
-import Menu from './Menu'
-import CTA from './CTA'
+import Link from "next/link"
+import React from "react"
+import Logo from "./Logo"
+import Menu from "./Menu"
+import CTA from "./CTA"
 
 const Navbar = () => {
   return (
@@ -49,12 +49,12 @@ const Navbar = () => {
       <script
         dangerouslySetInnerHTML={{
           __html: `
-            document.addEventListener('scroll', function() {
-              const button = document.getElementById('cta-button');
+            document.addEventListener("scroll", function() {
+              const button = document.getElementById("cta-button");
               if (window.scrollY > 50) {
-                button.classList.add('scrolled');
+                button.classList.add("scrolled");
               } else {
-                button.classList.remove('scrolled');
+                button.classList.remove("scrolled");
               }
             });
           `,

@@ -37,9 +37,9 @@ const NavTabs = () => {
           </h3>
           <p className="text-zinc-700 mb-10 text-[16px] max-w-[800px] text-center">
             Découvrez nos services complets de raccordement électrique,
-            comprenant l'installation, la maintenance préventive, le dépannage
-            d'urgence et la conformité aux normes en vigueur. Nos électriciens
-            certifiés sont là pour vous garantir une tranquillité d'esprit
+            comprenant l"installation, la maintenance préventive, le dépannage
+            d"urgence et la conformité aux normes en vigueur. Nos électriciens
+            certifiés sont là pour vous garantir une tranquillité d"esprit
             totale.
           </p>
         </div>
