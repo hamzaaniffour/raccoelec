@@ -68,19 +68,19 @@ const BookingPage: React.FC = () => {
     <div className="max-w-5xl mx-auto py-20">
       <div className="flex justify-center items-center flex-col mb-20">
         <h2 className="book_title text-[47px] leading-[55px] font-bold text-[#96cd32] text-center mb-6 max-w-[600px]">
-          Informations générales sur le prix et les délais d'un raccordement
+          Informations générales sur le prix et les délais d&#39;un raccordement
         </h2>
       </div>
       <div>
         <p className="text-zinc-950">
-          Le <strong>prix</strong> et les <strong>délais</strong> d'un
+          Le <strong>prix</strong> et les <strong>délais</strong> d&#39;un
           raccordement en consommation dépendent de la solution technique qui
           est fonction de :
         </p>
         <ul className="tempslist mt-5 mb-16">
           <li>
-            la distance entre l'installation électrique de votre local et le
-            réseau de distribution d'électricité ;
+            la distance entre l&#39;installation électrique de votre local et le
+            réseau de distribution d&#39;électricité ;
           </li>
           <li>la puissance électrique demandée.</li>
         </ul>
@@ -90,7 +90,7 @@ const BookingPage: React.FC = () => {
         <p className="text-zinc-950 font-semibold mb-3">
           Les informations mentionnées visent vous fournir des repères
           simplifiés et préalables une demande raccordement en consommation.
-          Elles n'ont pas valeur d'engagement.
+          Elles n&#39;ont pas valeur d&#39;engagement.
         </p>
       </div>
       <form onSubmit={handleSubmit}>
@@ -155,7 +155,7 @@ const BookingPage: React.FC = () => {
                     id="helper-radio-text2"
                     className="text-sm font-normal text-gray-500 dark:text-gray-300"
                   >
-                    (entreprises avec beaucoup d'équipements électriques
+                    (entreprises avec beaucoup d&#39;équipements électriques
                     spécifiques)
                   </p>
                 </div>
@@ -204,7 +204,7 @@ const BookingPage: React.FC = () => {
               <br />
               la solution technique est un branchement, voire une extension du
               réseau de distribution d&#39;électricité en complément du
-              branchement, en fonction de la distance entre l'installation
+              branchement, en fonction de la distance entre l&#39;installation
               électrique de votre local et le réseau de distribution
               d&#39;électricité.
             </li>

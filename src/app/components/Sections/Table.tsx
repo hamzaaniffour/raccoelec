@@ -123,7 +123,7 @@ const Table = () => {
                 scope="col"
                 className="px-6 py-3 text-center text-sm tracking-wider"
               >
-                Chiffre D'affaires
+                Chiffre D&#39;affaires
                 <div className="text-xs text-green-300 mb-1">en moyenne</div>
                 <b className="px-2 py-[2px] rounded text-white bg-[#000000] uppercase font-semibold text-xs w-auto mt-1 tracking-wide">
                   <svg
