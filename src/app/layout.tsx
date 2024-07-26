@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "animate.css";
+import Navbar from "@/app/components/Header/Navbar";
+import Script from "next/script";
+import Footer from "./components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +19,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" data-theme="light">
+      <head>
+        <link
+          href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css"
+          rel="stylesheet"
+        />
+      </head>
+      <body className={inter.className}>
+        <Navbar />
+        {children}
+        <Footer />
+        <Script
+          src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"
+          strategy="afterInteractive"
+        />
+        <Script
+          src="https://code.jquery.com/jquery-3.4.1.min.js"
+          strategy="afterInteractive"
+        />
+      </body>
     </html>
   );
 }
