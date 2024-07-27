@@ -1,39 +1,47 @@
 "use client";
+// Import the necessary modules from Next.js and React
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
+// Create a functional component for the BookingPage
 const BookingPage: React.FC = () => {
+  // State variables for selected power, error message, and step visibility
   const [selectedPower, setSelectedPower] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [showStep2, setShowStep2] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
 
+  // Get the router object from Next.js
   const router = useRouter();
 
+  // Handle radio button change event
   const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedPower(e.target.value);
     setError("");
   };
 
+  // Handle form submission
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!selectedPower) {
-      setError("Please select a power option.");
+      setError("Veuillez sélectionner une option de puissance.");
       return;
     }
 
-    // Save to local storage
+    // Save the selected power to local storage
     localStorage.setItem("selectedPower", selectedPower);
 
-    // Show step2
+    // Show the second step
     setShowStep2(true);
   };
 
+  // Handle "Réaliser une simulation" button click
   const handleSendNow = async () => {
     const formData = localStorage.getItem("selectedPower");
     if (formData) {
       setIsSending(true);
       try {
+        // Send a POST request to the server to send an email
         const response = await fetch("/api/send-email", {
           method: "POST",
           headers: {
@@ -42,23 +50,27 @@ const BookingPage: React.FC = () => {
           body: JSON.stringify({ selectedPower: formData }),
         });
 
+        // Check if the response is successful
         if (response.ok) {
-          // Clear local storage and reset form
+          // Clear local storage and reset the form
           localStorage.removeItem("selectedPower");
           setSelectedPower("");
           setShowStep2(false);
 
-          // Show success message
-          alert("Email sent successfully!");
+          // Show a success message
+          alert("L'email a été envoyé avec succès !");
           router.push("/");
         } else {
+          // Get the error message from the server
           const errorData = await response.json();
-          throw new Error(errorData.message || "Failed to send email");
+          throw new Error(errorData.message || "Échec de l'envoi de l'email");
         }
       } catch (error) {
-        console.error("Error sending email:", error);
-        setError("Failed to send email. Please try again.");
+        // Log the error and display an error message
+        console.error("Erreur lors de l'envoi de l'email:", error);
+        setError("Échec de l'envoi de l'email. Veuillez réessayer.");
       } finally {
+        // Reset the loading state
         setIsSending(false);
       }
     }
@@ -66,6 +78,7 @@ const BookingPage: React.FC = () => {
 
   return (
     <div className="max-w-5xl mx-auto py-20">
+      {/* Page title and description */}
       <div className="flex justify-center items-center flex-col mb-20">
         <h2 className="book_title text-[47px] leading-[55px] font-bold text-[#96cd32] text-center mb-6 max-w-[600px]">
           Informations générales sur le prix et les délais d&#39;un raccordement
@@ -88,11 +101,12 @@ const BookingPage: React.FC = () => {
           Votre estimation en moins de 3 questions
         </h3>
         <p className="text-zinc-950 font-semibold mb-3">
-          Les informations mentionnées visent vous fournir des repères
-          simplifiés et préalables une demande raccordement en consommation.
-          Elles n&#39;ont pas valeur d&#39;engagement.
+          Les informations mentionnées visent à vous fournir des repères
+          simplifiés et préalables à une demande de raccordement en
+          consommation. Elles n&#39;ont pas valeur d&#39;engagement.
         </p>
       </div>
+      {/* Form for selecting the power option */}
       <form onSubmit={handleSubmit}>
         <div className="p-10 bg-[#e5ebed]" id="step1">
           <h4 className="text-zinc-950 text-[16px] leading-[22px] mb-8">
@@ -119,7 +133,7 @@ const BookingPage: React.FC = () => {
                     htmlFor="helper-radio1"
                     className="font-medium text-xl text-gray-900 dark:text-gray-300"
                   >
-                    Inférieure ou égale 36 kVA
+                    Inférieure ou égale à 36 kVA
                   </label>
                   <p
                     id="helper-radio-text1"
@@ -149,7 +163,7 @@ const BookingPage: React.FC = () => {
                     htmlFor="helper-radio2"
                     className="font-medium text-xl text-gray-900 dark:text-gray-300"
                   >
-                    Supérieure 36 kVA
+                    Supérieure à 36 kVA
                   </label>
                   <p
                     id="helper-radio-text2"
@@ -162,6 +176,7 @@ const BookingPage: React.FC = () => {
               </div>
             </div>
           </div>
+          {/* Display error message if no option is selected */}
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-between items-center mt-8">
             <button
@@ -179,6 +194,7 @@ const BookingPage: React.FC = () => {
             </button>
           </div>
         </div>
+        {/* Second step with the selected option */}
         <div
           className={`p-10 bg-[#e5ebed] ${showStep2 ? "" : "hidden"}`}
           id="step2"
@@ -209,15 +225,12 @@ const BookingPage: React.FC = () => {
               d&#39;électricité.
             </li>
             <li>
-              <strong>
-                Si la puissance souhaitée n&#39;est pas disponible :
-              </strong>
+              <strong>Si la puissance souhaitée n&#39;est pas disponible :</strong>
               <br />
               la solution technique est le renforcement du réseau ou
-              l&#39;implantation d&#39;un nouveau poste de distribution
-              d&#39;électricité pour augmenter la puissance disponible sur le
-              réseau. Il s&#39;agit de travaux significatifs impliquant des
-              études approfondies.
+              l&#39;implantation d&#39;un nouveau poste de distribution d&#39;électricité
+              pour augmenter la puissance disponible sur le réseau. Il s&#39;agit
+              de travaux significatifs impliquant des études approfondies.
             </li>
           </ul>
 
@@ -225,7 +238,7 @@ const BookingPage: React.FC = () => {
             Prix moyen
           </h2>
           <p className="text-zinc-950 mb-8">
-            Le prix est variable en fonction de l&#39;ampleur des travaux
+            Le prix est variable en fonction de l&#39;ampleur des travaux à
             réaliser.
             <br />
             Une étude technique et financière par raccoelec est nécessaire.
@@ -244,7 +257,7 @@ const BookingPage: React.FC = () => {
           </p>
 
           <ul className="tempslist mt-5 mb-5">
-            <li>l&#39;établissement du devis (estimé 6 semaines) ;</li>
+            <li>l&#39;établissement du devis (estimé à 6 semaines) ;</li>
             <li>
               la réalisation des travaux (estimée entre 8 et 16 semaines) ;
             </li>
@@ -264,7 +277,7 @@ const BookingPage: React.FC = () => {
           </p>
 
           <ul className="tempslist mt-5 mb-8">
-            <li>l&#39;établissement du devis (estimé entre 6 12 semaines) ;</li>
+            <li>l&#39;établissement du devis (estimé entre 6 à 12 semaines) ;</li>
             <li>
               la réalisation des travaux (estimée entre 16 et 22 semaines) ;
             </li>
@@ -276,8 +289,8 @@ const BookingPage: React.FC = () => {
 
           <p className="text-zinc-950 mb-8 font-semibold">
             Vous voulez aller plus loin dans votre estimation, sachez que nous
-            mettons votre disposition un outil de simulation vous permettant de
-            réaliser une estimation plus précise adaptée votre situation.
+            mettons à votre disposition un outil de simulation vous permettant de
+            réaliser une estimation plus précise adaptée à votre situation.
           </p>
 
           <div className="flex justify-end items-end">
