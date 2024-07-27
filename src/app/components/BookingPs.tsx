@@ -445,7 +445,7 @@ const ConditionalForm = () => {
       {showSubContent && subOption === "No" && (
         <div>
           <h4 className="text-zinc-950 text-[16px] leading-[22px] mb-0.5 mt-10">
-          3- Le réseau de distribution d'électricité est-il proche de votre terrain ?
+          3- Le réseau de distribution d&#39;électricité est-il proche de votre terrain ?
           </h4>
           <p className="text-xs mb-5 text-zinc-800">(si votre terrain a un caractère spécifique, tel qu&#39;un terrain sans accès direct   la voie publique, sachez que l&#39;estimation proposée ici n&#39;est pas adaptée. Une étude précise par raccoelec sera nécessaire)</p>
           <form className="flex justify-start items-start gap-y-4 flex-col pl-5 mb-16">
