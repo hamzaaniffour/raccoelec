@@ -13,7 +13,7 @@ const Timeline = () => {
           <div className="bg-white p-4 rounded-lg shadow-md">
             <h3 className="font-bold text-lg">Étude de la Demande</h3>
             <p className="text-gray-600">
-              Nos juristes repondent a vos questions grace a l'assistance
+              Nos juristes repondent a vos questions grace a l&lsquo;assistance
               legalstart, vos status sont generes et verifies par bos equipes.
             </p>
           </div>
@@ -36,7 +36,7 @@ const Timeline = () => {
           <div className="bg-white p-4 rounded-lg shadow-md">
             <h3 className="font-bold text-lg">Dépôt du Dossier</h3>
             <p className="text-gray-600">
-              Vous constituez votre dossier avec l'aide de nos équipes.
+              Vous constituez votre dossier avec l&lsquo;aide de nos équipes.
             </p>
           </div>
         </div>
@@ -46,7 +46,7 @@ const Timeline = () => {
           <div className="bg-white p-4 rounded-lg shadow-md">
             <h3 className="font-bold text-lg">Réalisation des Travaux</h3>
             <p className="text-gray-600">
-              Nos juristes repondent a vos questions grace a l'assistance
+              Nos juristes repondent a vos questions grace a l&lsquo;assistance
               legalstart, vos status sont generes et verifies par bos equipes.
             </p>
           </div>
@@ -67,9 +67,9 @@ const Timeline = () => {
         </div>
         <div className="w-1/2 pl-8">
           <div className="bg-white p-4 rounded-lg shadow-md">
-            <h3 className="font-bold text-lg">Appel d'un Expert Enedis</h3>
+            <h3 className="font-bold text-lg">Appel d&lsquo;un Expert Enedis</h3>
             <p className="text-gray-600">
-              Vous constituez votre dossier avec l'aide de nos équipes.
+              Vous constituez votre dossier avec l&lsquo;aide de nos équipes.
             </p>
           </div>
         </div>
@@ -79,7 +79,7 @@ const Timeline = () => {
           <div className="bg-white p-4 rounded-lg shadow-md">
             <h3 className="font-bold text-lg">Mise en Service</h3>
             <p className="text-gray-600">
-              Nos juristes repondent a vos questions grace a l'assistance
+              Nos juristes repondent a vos questions grace a l&lsquo;assistance
               legalstart, vos status sont generes et verifies par bos equipes.
             </p>
           </div>

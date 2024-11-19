@@ -4,7 +4,6 @@ import emailjs from "emailjs-com";
 import { PiUsersThreeLight } from "react-icons/pi";
 import { RiFlashlightLine } from "react-icons/ri";
 import { IoHomeOutline } from "react-icons/io5";
-import { GrLocation } from "react-icons/gr";
 import { SlLocationPin } from "react-icons/sl";
 import { LuClock9 } from "react-icons/lu";
 import { CiViewList } from "react-icons/ci";
@@ -1676,6 +1675,7 @@ const Raccordement = () => {
               <button
                 id="sent_button"
                 type="button"
+                onClick={sendEmail}
                 className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
               >
                 Transmettre ma demande

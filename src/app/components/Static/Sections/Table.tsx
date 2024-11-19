@@ -68,7 +68,7 @@ const Table = () => {
                     </b>
                   </th>
                   <th scope="col" className="px-6 py-3 text-center text-sm tracking-wider">
-                    Chiffre D'affaires
+                    Chiffre D&lsquo;affaires
                     <div className="text-xs text-green-300 mb-1">en moyenne</div>
                     <b className="px-2 py-[2px] rounded text-white bg-[#000000] uppercase font-semibold text-xs w-auto mt-1 tracking-wide">
                       <svg fill="#047857" height="13px" className="inline mr-0.5" width="13px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 315.424 315.424" xmlSpace="preserve" transform="rotate(90)" stroke="#047857">

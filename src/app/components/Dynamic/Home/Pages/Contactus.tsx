@@ -23,11 +23,11 @@ const Contactus = () => {
     message: "",
   });
 
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<StatusState>({
-    type: null,
-    message: "",
-  });
+  // const [loading, setLoading] = useState(false);
+  // const [status, setStatus] = useState<StatusState>({
+  //   type: null,
+  //   message: "",
+  // });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -40,8 +40,8 @@ const Contactus = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setStatus({ type: null, message: "" });
+    // setLoading(true);
+    // setStatus({ type: null, message: "" });
 
     try {
       const response = await fetch("/api/contact", {
@@ -57,10 +57,10 @@ const Contactus = () => {
         throw new Error("Failed to send message");
       }
 
-      setStatus({
-        type: "success",
-        message: "Message sent successfully!",
-      });
+      // setStatus({
+      //   type: "success",
+      //   message: "Message sent successfully!",
+      // });
       setFormData({
         first_name: "",
         last_name: "",
@@ -69,12 +69,12 @@ const Contactus = () => {
         message: "",
       });
     } catch (error) {
-      setStatus({
-        type: "error",
-        message: "Failed to send message. Please try again.",
-      });
+      // setStatus({
+      //   type: "error",
+      //   message: "Failed to send message. Please try again.",
+      // });
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 

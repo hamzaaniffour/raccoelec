@@ -87,7 +87,7 @@ const Estimation = () => {
         </p>
         <ul className="tempslist mt-5 mb-16">
           <li>
-            la distance entre l'installation électrique de votre local et le
+            la distance entre l&lsquo;installation électrique de votre local et le
             réseau de distribution d’électricité ;
           </li>
           <li>la puissance électrique demandée.</li>
@@ -167,7 +167,7 @@ const Estimation = () => {
         </div>
         <div id="finalFormContainer" className="hidden">
           <h4 className="text-zinc-950 text-lg leading-tight mb-0.5">
-            3- Le réseau de distribution d'électricité est-il proche de votre
+            3- Le réseau de distribution d&lsquo;électricité est-il proche de votre
             terrain ?
           </h4>
           <p className="text-xs mb-5 text-zinc-800">
@@ -192,7 +192,7 @@ const Estimation = () => {
                   Ma rue est totalement desservie en électricité
                 </p>
                 <p className="!text-sm">
-                  (vous êtes encadré par des voisins disposant de l'électricité,
+                  (vous êtes encadré par des voisins disposant de l&lsquo;électricité,
                   le réseau passe a priori devant votre terrain)
                 </p>
               </div>
@@ -326,7 +326,7 @@ const Estimation = () => {
               <br />
               la solution technique est un branchement, voire une extension du
               réseau de distribution d’électricité en complément du branchement,
-              en fonction de la distance entre l'installation électrique de
+              en fonction de la distance entre l&lsquo;installation électrique de
               votre local et le réseau de distribution d’électricité.
             </li>
             <li>
@@ -474,13 +474,13 @@ const Estimation = () => {
           </h3>
           <p className="text-zinc-950 mb-3">
             Si votre futur local est proche du réseau de distribution
-            d'électricité, la solution technique est un branchement raccordant
+            d&lsquo;électricité, la solution technique est un branchement raccordant
             l’installation électrique de votre local au réseau de distribution
             d’électricité.
           </p>
           <p className="text-zinc-950 mb-3">
             Si votre futur local est éloigné du réseau de distribution
-            d'électricité, la solution technique nécessite la construction d’une
+            d&lsquo;électricité, la solution technique nécessite la construction d’une
             extension du réseau de distribution d’électricité, en complément de
             votre branchement.
           </p>
