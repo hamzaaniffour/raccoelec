@@ -2,20 +2,290 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.animated-underline {
+  position: relative;
+}
+.animated-underline::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: 15;
+  left: 0;
+  @apply bg-[#1523dc];
+  transition: width 0.3s ease-in-out;
+}
+.animated-underline:hover::after {
+  width: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+/* Hide scrollbar for modern browsers */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.active-button {
+  color: white;
+  padding: 15px 50px;
+  background: linear-gradient(to right, #2575fc, #6a11cb);
+  border: solid 1px transparent;
+  border-radius: 0.5rem;
+}
+
+/* Styles for inactive button */
+.inactive-button {
+  color: #1523dc;
+  padding: 15px 50px;
+  background: white;
+  border: solid 1px #ebf2fb;
+  border-radius: 0.5rem;
+}
+
+.next_button {
+  background: #1523dc !important;
+  color: white !important;
+  border: 1px solid #1523dc !important;
+}
+.next_button:hover {
+  background: white !important;
+  color: #1523dc !important;
+  border: 1px solid #1523dc !important;
+}
+
+.back_button {
+  background: #7a7d7e !important;
+  color: white !important;
+  border: 1px solid #7a7d7e !important;
+}
+.back_button:hover {
+  background: white !important;
+  color: #7a7d7e !important;
+  border: 1px solid #7a7d7e !important;
+}
+
+.tempslist {
+  list-style-type: none;
+  padding-left: 0;
+}
+.tempslist li:before {
+  content: "";
+  display: block;
+  float: left;
+  height: 6px;
+  width: 6px;
+  border-radius: 100px;
+  margin-top: 8.5px;
+  background: #1523dc;
+  font-size: 1.2em;
+  margin-right: 0.5em;
+}
+
+.active {
+  font-size: 1.3rem !important;
+  font-weight: bold;
+}
+
+.viab:hover {
+  transform: translate(0, -10px) !important;
+}
+.viab2:hover {
+  box-shadow: 2px -3px 132px -59px rgba(0, 173, 131, 0.75) !important;
+  transform: translate(0, -10px) !important;
+}
+
+.animated-underline {
+  position: relative;
+}
+.animated-underline::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #1623dc; /* Border color */
+  transition: width 0.3s ease-in-out;
+}
+.animated-underline:hover::after {
+  width: 100%;
+}
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+.carousel-inner {
+  display: flex;
+  transition: transform 1.5s ease;
+}
+.carousel-item {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+@keyframes zoomOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.zoom-out {
+  animation: zoomOut 1s forwards;
+}
+
+.zoom-in {
+  animation: zoomIn 1s forwards;
+}
+
+.card-timline-item:hover {
+  background-color: #1523dc !important;
+  .font-bold {
+    color: white !important;
+  }
+  .font-caveat {
+    color: white !important;
+  }
+}
+
+/* CONTACT FORM CSS */
+.wpcf7-text {
+  width: 100%;
+  padding: 10px 15px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.wpcf7-text:focus {
+  border-color: #66afe9;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+  outline: none;
+}
+
+.wpcf7-text:hover {
+  border-color: #999;
+}
+
+.wpcf7-textarea {
+  width: 100%;
+  height: 150px;
+  padding: 10px 15px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.wpcf7-textarea:focus {
+  border-color: #66afe9;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+  outline: none;
+}
+
+.wpcf7-submit {
+  display: inline-block;
+  padding: 12px 20px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #fff;
+  background-color: #1523dc;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.wpcf7-submit:hover {
+  background-color: #0056b3;
+}
+
+.wpcf7-submit:active {
+  background-color: #004494;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
+}
+
+.wpcf7-submit:focus {
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.6);
+}
+
+.wpcf7-submit:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* MARQUEE SLIDING CSS */
+
+.carousel {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-container {
+  display: flex;
+  width: max-content;
+  /* Prevent logos from wrapping to the next line */
+  white-space: nowrap;
+}
+
+.carousel-item {
+  display: inline-block;
+  min-width: calc(100% / var(--items-per-page));
+  box-sizing: border-box;
+  height: 60px;
+  width: 100px;
+  text-align: center;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.carousel-container {
+  animation: scroll 20s linear infinite;
 }
