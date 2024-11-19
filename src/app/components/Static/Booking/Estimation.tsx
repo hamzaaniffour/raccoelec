@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 const Estimation = () => {
 
   useEffect(() => {
-    const mainForm = document.getElementById("mainForm") as HTMLFormElement | null;
+    // const mainForm = document.getElementById("mainForm") as HTMLFormElement | null;
     const subFormContainer = document.getElementById("subFormContainer") as HTMLElement | null;
     const finalFormContainer = document.getElementById("finalFormContainer") as HTMLElement | null;
     const validateBtn = document.getElementById("validateBtn") as HTMLButtonElement | null;

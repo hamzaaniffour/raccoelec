@@ -8,7 +8,7 @@ const Features = () => {
       </h2>
       <p className="text-zinc-700 mb-10 text-[16px] max-w-[800px] text-center">
         Découvrez nos services complets de raccordement électrique, comprenant
-        l&#39;installation, la maintenance préventive, le dépannage d"urgence et
+        l&#39;installation, la maintenance préventive, le dépannage d&ldquo;urgence et
         la conformité aux normes en vigueur. Nos électriciens certifiés sont là
         pour vous garantir une tranquillité d&#39;esprit totale.
       </p>
