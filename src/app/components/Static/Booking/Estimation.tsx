@@ -1,31 +1,64 @@
 "use client";
+import Link from "next/link";
 import React, { useEffect } from "react";
+import Enedis from "../../../../../public/assets/enedis.svg"
+import Image from "next/image";
 
 const Estimation = () => {
-
   useEffect(() => {
     // const mainForm = document.getElementById("mainForm") as HTMLFormElement | null;
-    const subFormContainer = document.getElementById("subFormContainer") as HTMLElement | null;
-    const finalFormContainer = document.getElementById("finalFormContainer") as HTMLElement | null;
-    const validateBtn = document.getElementById("validateBtn") as HTMLButtonElement | null;
-    const resetBtn = document.getElementById("resetBtn") as HTMLButtonElement | null;
-    const simplePageContent = document.getElementById("simplePageContent") as HTMLElement | null;
-    const rue1Content = document.getElementById("rue1Content") as HTMLElement | null;
-    const rue2Content = document.getElementById("rue2Content") as HTMLElement | null;
-    const rue3Content = document.getElementById("rue3Content") as HTMLElement | null;
-    const helloContent = document.getElementById("helloContent") as HTMLElement | null;
+    const subFormContainer = document.getElementById(
+      "subFormContainer"
+    ) as HTMLElement | null;
+    const finalFormContainer = document.getElementById(
+      "finalFormContainer"
+    ) as HTMLElement | null;
+    const validateBtn = document.getElementById(
+      "validateBtn"
+    ) as HTMLButtonElement | null;
+    const resetBtn = document.getElementById(
+      "resetBtn"
+    ) as HTMLButtonElement | null;
+    const simplePageContent = document.getElementById(
+      "simplePageContent"
+    ) as HTMLElement | null;
+    const rue1Content = document.getElementById(
+      "rue1Content"
+    ) as HTMLElement | null;
+    const rue2Content = document.getElementById(
+      "rue2Content"
+    ) as HTMLElement | null;
+    const rue3Content = document.getElementById(
+      "rue3Content"
+    ) as HTMLElement | null;
+    const helloContent = document.getElementById(
+      "helloContent"
+    ) as HTMLElement | null;
 
     // Function to hide all content
     const hideAllContent = () => {
-      [subFormContainer, finalFormContainer, simplePageContent, rue1Content, rue2Content, rue3Content, helloContent]
-        .forEach(element => element?.classList.add("hidden"));
+      [
+        subFormContainer,
+        finalFormContainer,
+        simplePageContent,
+        rue1Content,
+        rue2Content,
+        rue3Content,
+        helloContent,
+      ].forEach((element) => element?.classList.add("hidden"));
     };
 
     // Event listener for the Validate button
     const handleValidate = () => {
-      const selectedMainOption = document.querySelector<HTMLInputElement>('input[name="mainOption"]:checked');
-      const selectedSubOption = document.querySelector<HTMLInputElement>('input[name="subOption"]:checked');
-      const selectedFinalOption = document.querySelector<HTMLInputElement>('input[name="finalOption"]:checked');
+      const selectedMainOption = document.querySelector<HTMLInputElement>(
+        'input[name="mainOption"]:checked'
+      );
+      const selectedSubOption = document.querySelector<HTMLInputElement>(
+        'input[name="subOption"]:checked'
+      );
+      const selectedFinalOption = document.querySelector<HTMLInputElement>(
+        'input[name="finalOption"]:checked'
+      );
 
       hideAllContent();
 
@@ -57,9 +90,11 @@ const Estimation = () => {
     // Event listener for the Reset button
     const handleReset = () => {
       hideAllContent();
-      document.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach(input => {
-        input.checked = false;
-      });
+      document
+        .querySelectorAll<HTMLInputElement>('input[type="radio"]')
+        .forEach((input) => {
+          input.checked = false;
+        });
     };
 
     validateBtn?.addEventListener("click", handleValidate);
@@ -87,8 +122,8 @@ const Estimation = () => {
         </p>
         <ul className="tempslist mt-5 mb-16">
           <li>
-            la distance entre l&lsquo;installation électrique de votre local et le
-            réseau de distribution d’électricité ;
+            la distance entre l&lsquo;installation électrique de votre local et
+            le réseau de distribution d’électricité ;
           </li>
           <li>la puissance électrique demandée.</li>
         </ul>
@@ -167,8 +202,8 @@ const Estimation = () => {
         </div>
         <div id="finalFormContainer" className="hidden">
           <h4 className="text-zinc-950 text-lg leading-tight mb-0.5">
-            3- Le réseau de distribution d&lsquo;électricité est-il proche de votre
-            terrain ?
+            3- Le réseau de distribution d&lsquo;électricité est-il proche de
+            votre terrain ?
           </h4>
           <p className="text-xs mb-5 text-zinc-800">
             (si votre terrain a un caractère spécifique, tel qu’un terrain sans
@@ -192,8 +227,9 @@ const Estimation = () => {
                   Ma rue est totalement desservie en électricité
                 </p>
                 <p className="!text-sm">
-                  (vous êtes encadré par des voisins disposant de l&lsquo;électricité,
-                  le réseau passe a priori devant votre terrain)
+                  (vous êtes encadré par des voisins disposant de
+                  l&lsquo;électricité, le réseau passe a priori devant votre
+                  terrain)
                 </p>
               </div>
             </label>
@@ -296,14 +332,11 @@ const Estimation = () => {
             de réaliser une estimation plus précise adaptée à votre situation.
           </p>
           <div className="flex justify-end items-end mt-10">
-            <a
-              href="https://raccoelec.fr/raccordement-electrique/"
-              target="_blank"
-            >
+            <Link href="/raccordement-electrique" target="_blank">
               <button className="next_button py-2.5 px-8 rounded-md text-md font-bold bg-[#1523dc] text-white border border-[#1523dc] hover:bg-white hover:text-[#1523dc] hover:border-[#1523dc] hover:border-[1px] transition-all">
                 Faire ma demande
               </button>
-            </a>
+            </Link>
           </div>
         </div>
         {/* SIMPLE PAGE CONTENT // */}
@@ -326,8 +359,8 @@ const Estimation = () => {
               <br />
               la solution technique est un branchement, voire une extension du
               réseau de distribution d’électricité en complément du branchement,
-              en fonction de la distance entre l&lsquo;installation électrique de
-              votre local et le réseau de distribution d’électricité.
+              en fonction de la distance entre l&lsquo;installation électrique
+              de votre local et le réseau de distribution d’électricité.
             </li>
             <li>
               Si la puissance souhaitée n’est pas disponible :
@@ -391,14 +424,11 @@ const Estimation = () => {
             de réaliser une estimation plus précise adaptée à votre situation.
           </p>
           <div className="flex justify-end items-end mt-10">
-            <a
-              href="https://raccoelec.fr/raccordement-electrique/"
-              target="_blank"
-            >
+            <Link href="/raccordement-electrique" target="_blank">
               <button className="next_button py-2.5 px-8 rounded-md text-md font-bold bg-[#1523dc] text-white border border-[#1523dc] hover:bg-white hover:text-[#1523dc] hover:border-[#1523dc] hover:border-[1px] transition-all">
                 Faire ma demande
               </button>
-            </a>
+            </Link>
           </div>
         </div>
         {/* RUE 1 CONTENT // */}
@@ -452,14 +482,11 @@ const Estimation = () => {
             de réaliser une estimation plus précise adaptée à votre situation.
           </p>
           <div className="flex justify-end items-end mt-10">
-            <a
-              href="https://raccoelec.fr/raccordement-electrique/"
-              target="_blank"
-            >
+            <Link href="/raccordement-electrique" target="_blank">
               <button className="next_button py-2.5 px-8 rounded-md text-md font-bold bg-[#1523dc] text-white border border-[#1523dc] hover:bg-white hover:text-[#1523dc] hover:border-[#1523dc] hover:border-[1px] transition-all">
                 Faire ma demande
               </button>
-            </a>
+            </Link>
           </div>
         </div>
         {/* RUE 2 CONTENT // */}
@@ -474,15 +501,15 @@ const Estimation = () => {
           </h3>
           <p className="text-zinc-950 mb-3">
             Si votre futur local est proche du réseau de distribution
-            d&lsquo;électricité, la solution technique est un branchement raccordant
-            l’installation électrique de votre local au réseau de distribution
-            d’électricité.
+            d&lsquo;électricité, la solution technique est un branchement
+            raccordant l’installation électrique de votre local au réseau de
+            distribution d’électricité.
           </p>
           <p className="text-zinc-950 mb-3">
             Si votre futur local est éloigné du réseau de distribution
-            d&lsquo;électricité, la solution technique nécessite la construction d’une
-            extension du réseau de distribution d’électricité, en complément de
-            votre branchement.
+            d&lsquo;électricité, la solution technique nécessite la construction
+            d’une extension du réseau de distribution d’électricité, en
+            complément de votre branchement.
           </p>
           <p className="text-zinc-950 mb-3">
             Dans les deux situations, un coffret électrique sera implanté en
@@ -541,21 +568,18 @@ const Estimation = () => {
             de réaliser une estimation plus précise adaptée à votre situation.
           </p>
           <div className="flex justify-end items-end mt-10">
-            <a
-              href="https://raccoelec.fr/raccordement-electrique/"
-              target="_blank"
-            >
+            <Link href="/raccordement-electrique" target="_blank">
               <button className="next_button py-2.5 px-8 rounded-md text-md font-bold bg-[#1523dc] text-white border border-[#1523dc] hover:bg-white hover:text-[#1523dc] hover:border-[#1523dc] hover:border-[1px] transition-all">
                 Faire ma demande
               </button>
-            </a>
+            </Link>
           </div>
         </div>
         {/* RUE 3 CONTENT // */}
         <div id="rue3Content" className="hidden mt-8">
           <div className="max-w-[500px] mx-auto">
             <div className="flex justify-center items-center mt-14 mb-14">
-              <img src="https://www.enedis.fr/sites/default/files/pictos/2023-11/couts-delais-situation-2.svg" />
+              <Image src={Enedis} alt="" width={800} height={800} />
             </div>
           </div>
           <h3 className="text-2xl leading-tight font-bold text-[#96cd32] text-left mb-4">
@@ -615,14 +639,11 @@ const Estimation = () => {
             de réaliser une estimation plus précise adaptée à votre situation.
           </p>
           <div className="flex justify-end items-end mt-10">
-            <a
-              href="https://raccoelec.fr/raccordement-electrique/"
-              target="_blank"
-            >
+            <Link href="/raccordement-electrique" target="_blank">
               <button className="next_button py-2.5 px-8 rounded-md text-md font-bold bg-[#1523dc] text-white border border-[#1523dc] hover:bg-white hover:text-[#1523dc] hover:border-[#1523dc] hover:border-[1px] transition-all">
                 Faire ma demande
               </button>
-            </a>
+            </Link>
           </div>
         </div>
         {/* // END OF INPUTS CONTENTS */}

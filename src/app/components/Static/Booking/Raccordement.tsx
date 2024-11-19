@@ -1,12 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import emailjs from "emailjs-com";
 import { PiUsersThreeLight } from "react-icons/pi";
-import { RiFlashlightLine } from "react-icons/ri";
-import { IoHomeOutline } from "react-icons/io5";
+import {
+  IoMailOutline,
+  IoStopwatchOutline,
+} from "react-icons/io5";
 import { SlLocationPin } from "react-icons/sl";
-import { LuClock9 } from "react-icons/lu";
-import { CiViewList } from "react-icons/ci";
+import { LuDoorOpen } from "react-icons/lu";
+import { MdOutlineHomeWork } from "react-icons/md";
+import { FiUser } from "react-icons/fi";
+import { AiOutlineUserSwitch } from "react-icons/ai";
+import { FaRegSquare } from "react-icons/fa";
+import { LiaCompressArrowsAltSolid } from "react-icons/lia";
+import { GrUserPolice } from "react-icons/gr";
+
+const numbers = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 36, "Plus de 36"];
 
 const Raccordement = () => {
   const [currentForm, setCurrentForm] = useState("first_form");
@@ -14,6 +23,7 @@ const Raccordement = () => {
   const [formData, setFormData] = useState({
     step1: {
       radio: "",
+      beneficiary: "",
       last_name: "",
       first_name: "",
       email: "",
@@ -42,6 +52,7 @@ const Raccordement = () => {
   });
   const [errors, setErrors] = useState({
     radio: "",
+    beneficiary: "",
     last_name: "",
     first_name: "",
     email: "",
@@ -133,6 +144,7 @@ const Raccordement = () => {
     let valid = true;
     const newErrors = {
       radio: "",
+      beneficiary: "",
       last_name: "",
       first_name: "",
       email: "",
@@ -151,6 +163,10 @@ const Raccordement = () => {
     if (currentForm === "first_form") {
       if (!formData.step1.radio) {
         newErrors.radio = "Please select an option";
+        valid = false;
+      }
+      if (!formData.step1.beneficiary) {
+        newErrors.beneficiary = "Please select an option";
         valid = false;
       }
       if (!formData.step1.last_name) {
@@ -235,6 +251,7 @@ const Raccordement = () => {
       from_email: formData.step1.email,
       phone: formData.step1.phone,
       radio_option: formData.step1.radio,
+      beneficiary: formData.step1.beneficiary,
       delivery_option: formData.step2.DeliveryOption,
       code_postal: formData.step3.codePostal,
       commune: formData.step3.Commune,
@@ -265,6 +282,18 @@ const Raccordement = () => {
         console.error("Error sending email:", error);
         alert("Failed to submit form. Please try again later.");
       });
+  };
+
+  const inputsRef = useRef<HTMLInputElement[]>([]);
+
+  const handleInputChange = (index: number, value: string) => {
+    if (value.length === 1 && index < inputsRef.current.length - 1) {
+      // Move to the next input
+      inputsRef.current[index + 1]?.focus();
+    } else if (value.length === 0 && index > 0) {
+      // Move to the previous input on backspace
+      inputsRef.current[index - 1]?.focus();
+    }
   };
 
   return (
@@ -400,7 +429,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     id="radio4"
-                    name="radio"
+                    name="beneficiary"
                     value="Un particulier"
                     className="hidden peer"
                     onChange={handleRadioChange}
@@ -430,15 +459,15 @@ const Raccordement = () => {
                       </div>
                     </div>
                   </label>
-                  {errors.radio && (
-                    <p className="text-red-500">{errors.radio}</p>
+                  {errors.beneficiary && (
+                    <p className="text-red-500">{errors.beneficiary}</p>
                   )}
                 </li>
                 <li>
                   <input
                     type="radio"
                     id="radio5"
-                    name="radio"
+                    name="beneficiary"
                     value="Une Entreprise"
                     className="hidden peer"
                     onChange={handleRadioChange}
@@ -465,8 +494,8 @@ const Raccordement = () => {
                       Une Entreprise
                     </div>
                   </label>
-                  {errors.radio && (
-                    <p className="text-red-500">{errors.radio}</p>
+                  {errors.beneficiary && (
+                    <p className="text-red-500">{errors.beneficiary}</p>
                   )}
                 </li>
               </ul>
@@ -575,7 +604,7 @@ const Raccordement = () => {
             style={{ boxShadow: "0 10px 30px 0 rgba(62, 87, 111, 0.2)" }}
           >
             <h2 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-10">
-              Quel type de site souhaitez-vous raccorder au réseau électrique ?
+              Quel type de site souhaitez-vous raccorder / réseau électrique ?
             </h2>
             <div className="max-w-[600px] mx-auto">
               <fieldset className="space-y-4">
@@ -816,29 +845,29 @@ const Raccordement = () => {
                         onChange={handleRadioChange}
                       />
                     </label>
-                    {formData.step2.DeliveryOption === "Autre" && (
-                      <textarea
-                        className="mt-4 w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#005EB8] focus:border-[#005EB8]"
-                        placeholder="Please specify other type..."
-                        rows={4}
-                        name="otherSpecification"
-                        value={formData.step2.otherSpecification || ""}
-                        onChange={(e) => {
-                          setFormData({
-                            ...formData,
-                            step2: {
-                              ...formData.step2,
-                              otherSpecification: e.target.value,
-                            },
-                          });
-                        }}
-                      />
-                    )}
                     {errors.DeliveryOption && (
                       <p className="text-red-500">{errors.DeliveryOption}</p>
                     )}
                   </div>
                 </div>
+                {formData.step2.DeliveryOption === "Autre" && (
+                  <textarea
+                    className="mt-4 w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#005EB8] focus:border-[#005EB8]"
+                    placeholder="Please specify other type..."
+                    rows={4}
+                    name="otherSpecification"
+                    value={formData.step2.otherSpecification || ""}
+                    onChange={(e) => {
+                      setFormData({
+                        ...formData,
+                        step2: {
+                          ...formData.step2,
+                          otherSpecification: e.target.value,
+                        },
+                      });
+                    }}
+                  />
+                )}
                 <div className="flex justify-center items-center gap-6 !mt-10">
                   <button
                     id="prev1"
@@ -990,8 +1019,8 @@ const Raccordement = () => {
             </form>
             <h2 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-10">
               Votre terrain possède-t-il déjà un coffret électrique en limite de
-              propriété ? (La présence d&lsquo;un coffret signifie que le terrain est
-              viabilisé)?
+              propriété ? (La présence d&lsquo;un coffret signifie que le
+              terrain est viabilisé)?
             </h2>
             <div className="flex space-x-4 mb-14">
               {/* Option 1 */}
@@ -1000,7 +1029,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="terrain"
-                    value="viabilise"
+                    value="Oui, mon terrain est viabilisé"
                     className="sr-only peer"
                     onChange={handleRadioChange}
                   />
@@ -1025,7 +1054,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="terrain"
-                    value="non_viabilise"
+                    value="Non, mon terrain n‘est pas"
                     className="sr-only peer"
                     onChange={handleRadioChange}
                   />
@@ -1050,199 +1079,37 @@ const Raccordement = () => {
               projet?
             </h2>
             <div className="flex items-center justify-start space-x-7 border-2 border-slate-200 rounded py-1 px-2 overflow-scroll lg:overflow-none">
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={6}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  6
-                  <span
-                    className="arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500 hidden"
-                    style={{ bottom: "-8px" }}
+              {numbers.map((number, index) => (
+                <label
+                  key={index}
+                  className={`relative cursor-pointer ${
+                    number === "Plus de 36" ? "ml-5" : ""
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="number"
+                    value={number}
+                    className="hidden radio-input"
+                    onChange={handleRadioChange}
                   />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={9}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label bg-blue-500 text-white">
-                  9
                   <span
-                    className="arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={12}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  12
-                  <span
-                    className="arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500 hidden"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={15}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  15
-                  <span
-                    className="arrow hidden absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={18}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  18
-                  <span
-                    className="arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500 hidden"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={21}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  21
-                  <span
-                    className="arrow hidden absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={24}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  24
-                  <span
-                    className="arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500 hidden"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={27}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  27
-                  <span
-                    className="arrow hidden absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={30}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  30
-                  <span
-                    className="arrow hidden absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={33}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  33
-                  <span
-                    className="arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500 hidden"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer">
-                <input
-                  type="radio"
-                  name="number"
-                  value={36}
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-8 flex justify-center items-center rounded-full radio-label">
-                  36
-                  <span
-                    className="arrow hidden absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              <label className="relative cursor-pointer ml-5">
-                <input
-                  type="radio"
-                  name="number"
-                  value="Plus de 36"
-                  className="hidden radio-input"
-                  onChange={handleRadioChange}
-                />
-                <span className="inline-block h-8 w-full px-2 flex justify-center items-center rounded-full radio-label">
-                  Plus de 36
-                  <span
-                    className="arrow hidden absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500"
-                    style={{ bottom: "-8px" }}
-                  />
-                </span>
-              </label>
-              {/* Repeat for each number, changing the value and text accordingly */}
+                    className={`inline-block h-8 ${
+                      number === "Plus de 36" ? "w-full px-2" : "w-8"
+                    } flex justify-center items-center rounded-full radio-label ${
+                      number === 9 ? "bg-blue-500 text-white" : ""
+                    }`}
+                  >
+                    {number}
+                    <span
+                      className={`arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500 ${
+                        number === 9 ? "" : "hidden"
+                      }`}
+                      style={{ bottom: "-8px" }}
+                    />
+                  </span>
+                </label>
+              ))}
             </div>
             <fieldset>
               <div className="mt-4 space-y-2">
@@ -1310,7 +1177,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="portesFenetres"
-                    value="oui"
+                    value="Oui"
                     className="sr-only peer"
                     onChange={handleRadioChange}
                   />
@@ -1335,7 +1202,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="portesFenetres"
-                    value="non"
+                    value="Non"
                     className="sr-only peer"
                     onChange={handleRadioChange}
                   />
@@ -1369,7 +1236,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="echeance"
-                    value="1mois"
+                    value="Moins d‘1,5 mois"
                     id="1mois"
                     className="sr-only"
                     onChange={handleRadioChange}
@@ -1385,7 +1252,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="echeance"
-                    value="3mois"
+                    value="Entre 1,5 et 3 mois"
                     id="3mois"
                     className="sr-only"
                     onChange={handleRadioChange}
@@ -1401,7 +1268,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="echeance"
-                    value="6mois"
+                    value="Entre 3 et 6 mois"
                     id="6mois"
                     className="sr-only"
                     onChange={handleRadioChange}
@@ -1417,7 +1284,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="echeance"
-                    value="more6mois"
+                    value="Plus de 6 mois"
                     id="more6mois"
                     className="sr-only"
                     onChange={handleRadioChange}
@@ -1425,6 +1292,30 @@ const Raccordement = () => {
                 </label>
               </div>
             </div>
+            {/* <div className="p-6 bg-white rounded-lg shadow-md w-full mb-10 flex justify-center items-center flex-col">
+      <div className="mb-4">
+        <p className="text-lg font-medium text-gray-800">
+          Si vous en disposez, quelle est la référence de votre branchement (PDL) ?
+        </p>
+      </div>
+      <div className="mb-6">
+        <p className="text-sm text-gray-600">
+          Sinon, merci de préciser le numéro cadastral de la parcelle dans le complément d'adresse à la question suivante.
+        </p>
+      </div>
+      <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12">
+        {Array.from({ length: 12 }).map((_, index) => (
+          <input
+            key={index}
+            type="text"
+            maxLength={1}
+            className="w-full h-12 border rounded-lg text-center text-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            ref={(el) => { inputsRef.current[index] = el!; }}
+            onChange={(e) => handleInputChange(index, e.target.value)}
+          />
+        ))}
+      </div>
+            </div> */}
             <h2 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-4">
               Disposez-vous de votre autorisation d&lsquo;urbanisme?
             </h2>
@@ -1438,7 +1329,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="autorisation"
-                    value="deja"
+                    value="Oui, je l'ai déjà"
                     id="deja"
                     className="sr-only"
                     onChange={handleRadioChange}
@@ -1450,11 +1341,13 @@ const Raccordement = () => {
                   htmlFor="no-deja"
                   className="viab transition-all duration-300 flex cursor-pointer items-center justify-center gap-4 rounded border border-slate-400 bg-white p-4 text-md font-medium shadow-sm hover:border-slate-500 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500 has-[:checked]:bg-blue-100"
                 >
-                  <p className="text-gray-700">Non, je ne l&lsquo;ai pas encore</p>
+                  <p className="text-gray-700">
+                    Non, je ne l&lsquo;ai pas encore
+                  </p>
                   <input
                     type="radio"
                     name="autorisation"
-                    value="no-deja"
+                    value="Non, je ne l‘ai pas encore"
                     id="no-deja"
                     className="sr-only"
                     onChange={handleRadioChange}
@@ -1470,7 +1363,7 @@ const Raccordement = () => {
                   <input
                     type="radio"
                     name="autorisation"
-                    value="pasbesoin"
+                    value="Je n‘en ai pas besoin"
                     id="pasbesoin"
                     className="sr-only"
                     onChange={handleRadioChange}
@@ -1586,24 +1479,24 @@ const Raccordement = () => {
           //       {formData.step4.autorisation}
           //     </p>
           //   </div>
-          //   <div className="flex justify-end items-center gap-3 mt-10">
-          //     <button
-          //       id="prev4"
-          //       onClick={() => handleFormSwitch("four_form", "sp4", "sp5")}
-          //       type="button"
-          //       className="bg-white border-[1px] border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
-          //     >
-          //       Précédent
-          //     </button>
-          //     <button
-          //       id="submit"
-          //       type="button"
-          //       onClick={sendEmail}
-          //       className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
-          //     >
-          //       Soumettre
-          //     </button>
-          //   </div>
+          // <div className="flex justify-end items-center gap-3 mt-10">
+          //   <button
+          //     id="prev4"
+          //     onClick={() => handleFormSwitch("four_form", "sp4", "sp5")}
+          //     type="button"
+          //     className="bg-white border-[1px] border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
+          //   >
+          //     Précédent
+          //   </button>
+          //   <button
+          //     id="submit"
+          //     type="button"
+          //     onClick={sendEmail}
+          //     className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
+          //   >
+          //     Soumettre
+          //   </button>
+          // </div>
           // </div>
           <div
             id="five_form"
@@ -1617,11 +1510,19 @@ const Raccordement = () => {
               <ul className="mb-8">
                 <li className="mb-3 flex justify-start items-center gap-3">
                   <PiUsersThreeLight className="size-7 inline-block text-slate-500" />
-                  Client Particulier
+                  Votre Besoin: {formData.step1.radio}
                 </li>
-                <li className="flex justify-start items-center gap-3">
-                  <RiFlashlightLine className="size-7 inline-block text-slate-500" />
-                  Consommation d&lsquo;electric
+                <li className="flex justify-start items-center gap-3 mb-3">
+                  <AiOutlineUserSwitch className="size-7 inline-block text-slate-500" />
+                  Bénéficiaire: {formData.step1.beneficiary}
+                </li>
+                <li className="mb-3 flex justify-start items-center gap-3">
+                  <FiUser className="size-7 inline-block text-slate-500" />
+                  {formData.step1.first_name} {formData.step1.last_name}
+                </li>
+                <li className="mb-3 flex justify-start items-center gap-3">
+                  <IoMailOutline className="size-7 inline-block text-slate-500" />
+                  {formData.step1.email} - {formData.step1.phone}
                 </li>
               </ul>
             </div>
@@ -1631,49 +1532,63 @@ const Raccordement = () => {
               </h4>
               <ul className="mb-8">
                 <li className="mb-3 flex justify-start items-center gap-3">
-                  <IoHomeOutline className="size-7 inline-block text-slate-500" />
-                  Client Particulier
+                  <FaRegSquare className="size-7 inline-block text-slate-500" />
+                  Le type de site souhaitez-vous raccorder:{" "}
+                  {formData.step2.DeliveryOption}
                 </li>
-                <li className="flex justify-start items-center gap-3">
-                  <SlLocationPin className="size-9 inline-block text-slate-500" />
-                  <p>
-                    Référence cadastrale: Section AW; n° 99 75001 PARIS 1ER
-                    ARRONDISSEMENT Coordonnées GPS: Latitude: 48.8651272900,
-                    Longitude: 2.33287241500
-                  </p>
+                <li className="mb-3 pb-2 border-b-[1px] border-slate-200">
+                  {formData.step2.otherSpecification}
                 </li>
               </ul>
             </div>
             <div className="mb-10">
               <h4 className="stepper-title text-[#1523dc] font-semibold text-md mb-4 pb-2 border-b-2 border-[#1523dc]">
-                Mon besoin électrique
-              </h4>
-              <ul className="mb-8">
-                <li className="flex justify-start items-center gap-3">
-                  <RiFlashlightLine className="size-7 inline-block text-slate-500" />
-                  Puissance de raccordement de 36kVA (triphase)
-                </li>
-              </ul>
-            </div>
-            <div className="mb-10">
-              <h4 className="stepper-title text-[#1523dc] font-semibold text-md mb-4 pb-2 border-b-2 border-[#1523dc]">
-                Mon planning
+                Mon Planning
               </h4>
               <ul className="mb-8">
                 <li className="flex justify-start items-center gap-3 mb-3">
-                  <LuClock9 className="size-7 inline-block text-slate-500" />
-                  Échéance de raccordement : 11/2024
+                  <SlLocationPin className="size-9 inline-block text-slate-500" />
+                  Où se situe votre projet: {formData.step3.codePostal},{" "}
+                  {formData.step3.Commune}, {formData.step3.cadastral},{" "}
+                  {formData.step3.Voie}, {formData.step3.facultatif}.
+                </li>
+                <li className="flex justify-start items-center gap-3 mb-3">
+                  <MdOutlineHomeWork className="size-9 inline-block text-slate-500" />
+                  Votre terrain est viabilisé?:{" "}
+                  <span className="capitalize">{formData.step3.terrain}</span>
+                </li>
+                <li className="flex justify-start items-center gap-3 mb-3">
+                  <LiaCompressArrowsAltSolid className="size-9 inline-block text-slate-500" />
+                  Puissance maximale (en kVA)?:{" "}
+                  <span className="capitalize">{formData.step3.number}</span>
+                </li>
+                <li className="flex justify-start items-center gap-3 mb-3">
+                  <LuDoorOpen className="size-7 inline-block text-slate-500" />
+                  Les portes extérieures et fenêtres de mon local est:{" "}
+                  {formData.step4.portesFenetres}
+                </li>
+                <li className="flex justify-start items-center gap-3 mb-3">
+                  <IoStopwatchOutline className="size-7 inline-block text-slate-500" />
+                  Echéance souhaiter que le raccordement soit effectué:{" "}
+                  {formData.step4.echeance}
                 </li>
                 <li className="flex justify-start items-center gap-3">
-                  <CiViewList className="size-7 inline-block text-slate-500" />
-                  L&lsquo;installation des portes extérieures et fenêtres a déjà été
-                  effectuée
+                  <GrUserPolice className="size-7 inline-block text-slate-500" />
+                  Autorisation d&#39;urbanisme: {formData.step4.autorisation}
                 </li>
               </ul>
             </div>
-            <div className="flex justify-end items-center mt-10">
+            <div className="flex justify-end items-center gap-3 mt-10">
               <button
-                id="sent_button"
+                id="prev4"
+                onClick={() => handleFormSwitch("four_form", "sp4", "sp5")}
+                type="button"
+                className="bg-white border-[1px] border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
+              >
+                Précédent
+              </button>
+              <button
+                id="submit"
                 type="button"
                 onClick={sendEmail}
                 className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
