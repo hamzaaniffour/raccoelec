@@ -1099,7 +1099,7 @@ const Branchement = () => {
               <div className="mb-6">
                 <p className="text-sm text-gray-600">
                   Sinon, merci de préciser le numéro cadastral de la parcelle
-                  dans le complément d'adresse à la question suivante.
+                  dans le complément d&lsquo;adresse à la question suivante.
                 </p>
               </div>
               <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12">
