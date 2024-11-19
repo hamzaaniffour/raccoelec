@@ -15,7 +15,7 @@ const About = () => {
           <p className="text-zinc-500 text-lg">
             Raccoservices est un opérateur expert et spécialiste, acteur majeur
             sur le marché, proposant un service dédié de conseil, d’assistance
-            et d'accompagnement à la démarche administrative et au suivi d'une
+            et d&lsquo;accompagnement à la démarche administrative et au suivi d&lsquo;une
             ou de demandes de raccordement électrique, en France, que ce soit
             pour des particuliers ou des professionnels.
           </p>

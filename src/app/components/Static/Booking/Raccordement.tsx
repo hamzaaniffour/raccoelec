@@ -982,7 +982,7 @@ const Raccordement = () => {
                         onChange={handleChange}
                       />
                       <span className="absolute start-0 top-2 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs">
-                        Complément d'adresse / N° cadastral (facultatif)
+                        Complément d&lsquo;adresse / N° cadastral (facultatif)
                       </span>
                     </label>
                   </div>
@@ -991,7 +991,7 @@ const Raccordement = () => {
             </form>
             <h2 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-10">
               Votre terrain possède-t-il déjà un coffret électrique en limite de
-              propriété ? (La présence d'un coffret signifie que le terrain est
+              propriété ? (La présence d&lsquo;un coffret signifie que le terrain est
               viabilisé)?
             </h2>
             <div className="flex space-x-4 mb-14">
@@ -1032,7 +1032,7 @@ const Raccordement = () => {
                   />
                   <div className="viab2 transition-all duration-300 w-64 h-74 rounded-lg p-3 border-2 border-gray-300 peer-checked:border-[#16a974] overflow-hidden">
                     <div className="text-black text-sm text-center mb-0.5">
-                      Non, mon terrain n'est pas
+                      Non, mon terrain n&lsquo;est pas
                     </div>
                     <img
                       src="https://www.bhg.com/thmb/rpSF7vUHwTf0FF-6JAIC_m7gAW0=/1280x0/filters:no_upscale():strip_icc()/unpainted-garden-shed-with-window-boxes-038b8742-c10f66637cee44f1b6d081180423ed79.jpg"
@@ -1366,7 +1366,7 @@ const Raccordement = () => {
                   htmlFor="1mois"
                   className="viab transition-all duration-300 flex cursor-pointer items-center justify-start gap-4 rounded border border-slate-400 border-l-[8px] border-l-[#f29d88] bg-white p-4 text-sm font-medium shadow-sm hover:border-slate-500 has-[:checked]:border-[#005EB8] has-[:checked]:ring-1 has-[:checked]:ring-[#005EB8] has-[:checked]:bg-[#bfd7ed]"
                 >
-                  <p className="text-gray-700">Moins d'1,5 mois</p>
+                  <p className="text-gray-700">Moins d&lsquo;1,5 mois</p>
                   <input
                     type="radio"
                     name="echeance"
@@ -1427,7 +1427,7 @@ const Raccordement = () => {
               </div>
             </div>
             <h2 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-4">
-              Disposez-vous de votre autorisation d'urbanisme?
+              Disposez-vous de votre autorisation d&lsquo;urbanisme?
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div>
@@ -1435,7 +1435,7 @@ const Raccordement = () => {
                   htmlFor="deja"
                   className="viab transition-all duration-300 flex cursor-pointer items-center justify-center gap-4 rounded border border-slate-400 bg-white p-4 text-md font-medium shadow-sm hover:border-slate-500 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500 has-[:checked]:bg-blue-100"
                 >
-                  <p className="text-gray-700">Oui, je l'ai déjà</p>
+                  <p className="text-gray-700">Oui, je l&lsquo;ai déjà</p>
                   <input
                     type="radio"
                     name="autorisation"
@@ -1451,7 +1451,7 @@ const Raccordement = () => {
                   htmlFor="no-deja"
                   className="viab transition-all duration-300 flex cursor-pointer items-center justify-center gap-4 rounded border border-slate-400 bg-white p-4 text-md font-medium shadow-sm hover:border-slate-500 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500 has-[:checked]:bg-blue-100"
                 >
-                  <p className="text-gray-700">Non, je ne l'ai pas encore</p>
+                  <p className="text-gray-700">Non, je ne l&lsquo;ai pas encore</p>
                   <input
                     type="radio"
                     name="autorisation"
@@ -1467,7 +1467,7 @@ const Raccordement = () => {
                   htmlFor="pasbesoin"
                   className="viab transition-all duration-300 flex cursor-pointer items-center justify-center gap-4 rounded border border-slate-400 bg-white p-4 text-md font-medium shadow-sm hover:border-slate-500 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500 has-[:checked]:bg-blue-100"
                 >
-                  <p className="text-gray-700">Je n'en ai pas besoin</p>
+                  <p className="text-gray-700">Je n&lsquo;en ai pas besoin</p>
                   <input
                     type="radio"
                     name="autorisation"
@@ -1556,7 +1556,7 @@ const Raccordement = () => {
           //     </p>
           //     <p>
           //       <strong>
-          //         Complément d'adresse / N° cadastral (facultatif):
+          //         Complément d&lsquo;adresse / N° cadastral (facultatif):
           //       </strong>{" "}
           //       {formData.step3.cadastral}
           //     </p>
@@ -1583,7 +1583,7 @@ const Raccordement = () => {
           //       <strong>Échéance:</strong> {formData.step4.echeance}
           //     </p>
           //     <p>
-          //       <strong>Autorisation d'urbanisme:</strong>{" "}
+          //       <strong>Autorisation d&lsquo;urbanisme:</strong>{" "}
           //       {formData.step4.autorisation}
           //     </p>
           //   </div>
@@ -1622,7 +1622,7 @@ const Raccordement = () => {
                 </li>
                 <li className="flex justify-start items-center gap-3">
                   <RiFlashlightLine className="size-7 inline-block text-slate-500" />
-                  Consommation d'electric
+                  Consommation d&lsquo;electric
                 </li>
               </ul>
             </div>
@@ -1667,7 +1667,7 @@ const Raccordement = () => {
                 </li>
                 <li className="flex justify-start items-center gap-3">
                   <CiViewList className="size-7 inline-block text-slate-500" />
-                  L'installation des portes extérieures et fenêtres a déjà été
+                  L&lsquo;installation des portes extérieures et fenêtres a déjà été
                   effectuée
                 </li>
               </ul>

@@ -91,7 +91,7 @@ const Footer = () => {
                 />
               </Link>
               <p className="text-white text-sm mb-1">
-                Raccoelec est un portail d'informations légales et financières
+                Raccoelec est un portail d&lsquo;informations légales et financières
                 sur les entreprises françaises inscrites au registre du commerce
                 et des sociétés. Consultez les bilans, les dirigeants et les
                 données publiques des entreprises en toute simplicité.

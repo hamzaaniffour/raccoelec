@@ -1,5 +1,5 @@
 import Hero from "./components/Static/Sections/Hero";
-import Features from "./components/Static/Sections/Features";
+// import Features from "./components/Static/Sections/Features";
 import Timeline from "./components/Static/Sections/Timeline";
 import About from "./components/Static/Sections/About";
 import Carousel from "./components/Static/Sections/Carousel";
