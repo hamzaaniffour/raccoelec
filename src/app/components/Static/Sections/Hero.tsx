@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import HeroImage from "../../../../../public/assets/hero_image.jpg"
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -24,18 +25,18 @@ const Hero = () => {
               économique.
             </p>
             <div className="flex flex-wrap gap-4 mb-8">
-              <a
-                href="https://raccoelec.fr/raccordement-electrique/"
+              <Link
+                href="/raccordement-electrique"
                 className="bg-white text-black font-bold hover:bg-[#149163] hover:text-white transition-all px-6 py-3 rounded-full"
               >
                 Raccordement électrique
-              </a>
-              <a
-                href="https://raccoelec.fr/modification-electrique"
+              </Link>
+              <Link
+                href="/modification-de-branchement"
                 className="bg-white text-black font-bold hover:bg-[#149163] hover:text-white transition-all px-6 py-3 rounded-full"
               >
                 Modification de branchement
-              </a>
+              </Link>
               <button className="bg-white text-black font-bold hover:bg-[#149163] hover:text-white transition-all px-16 py-3 rounded-full">
                 Mise en service
               </button>
