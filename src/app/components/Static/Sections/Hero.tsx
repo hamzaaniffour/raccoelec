@@ -37,9 +37,9 @@ const Hero = () => {
               >
                 Modification de branchement
               </Link>
-              <button className="bg-white text-black font-bold hover:bg-[#149163] hover:text-white transition-all px-16 py-3 rounded-full">
+              <Link href="/mise-en-service" className="bg-white text-black font-bold hover:bg-[#149163] hover:text-white transition-all px-16 py-3 rounded-full">
                 Mise en service
-              </button>
+              </Link>
             </div>
             <div className="flex justify-start items-center space-x-8 mt-20 relative xl:left-28">
               <div className="flex justify-center items-center flex-col">
