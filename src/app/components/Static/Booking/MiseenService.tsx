@@ -989,7 +989,7 @@ const Raccordement = () => {
   >
     <div className="text-center">
       <h1 className="text-2xl font-semibold text-gray-800 mb-8">
-        Avez-vous d'autres informations utiles à nous communiquer
+        Avez-vous d&apos;autres informations utiles à nous communiquer
         concernant votre projet de raccordement ?
       </h1>
       <div className="flex justify-center space-x-4 mb-8">
