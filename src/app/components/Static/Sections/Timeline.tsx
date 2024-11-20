@@ -1,6 +1,9 @@
 import React from "react";
-import { IoMdCheckmark } from "react-icons/io";
-import { IoHome } from "react-icons/io5";
+import { BiSupport } from "react-icons/bi";
+import { FaRegPenToSquare } from "react-icons/fa6";
+import { IoMdCheckmark, IoMdPaper } from "react-icons/io";
+import { IoFolderOpenOutline, IoHome } from "react-icons/io5";
+import { LuFileCheck2 } from "react-icons/lu";
 
 const Timeline = () => {
   return (
@@ -20,7 +23,7 @@ const Timeline = () => {
         </div>
         <div className="relative z-10">
           <div className="bg-green-500 w-8 h-8 rounded-full flex items-center justify-center">
-            <IoMdCheckmark className="text-white size-5" />
+            <IoMdPaper className="text-white size-5" />
           </div>
         </div>
         <div className="w-1/2" />
@@ -29,7 +32,7 @@ const Timeline = () => {
         <div className="w-1/2" />
         <div className="relative z-10">
           <div className="bg-green-500 w-8 h-8 rounded-full flex items-center justify-center">
-          <IoMdCheckmark className="text-white size-5" />
+          <IoFolderOpenOutline className="text-white size-5" />
           </div>
         </div>
         <div className="w-1/2 pl-8">
@@ -53,7 +56,7 @@ const Timeline = () => {
         </div>
         <div className="relative z-10">
           <div className="bg-green-500 w-8 h-8 rounded-full flex items-center justify-center">
-          <IoMdCheckmark className="text-white size-5" />
+          <FaRegPenToSquare className="text-white size-4" />
           </div>
         </div>
         <div className="w-1/2" />
@@ -62,7 +65,7 @@ const Timeline = () => {
         <div className="w-1/2" />
         <div className="relative z-10">
           <div className="bg-green-500 w-8 h-8 rounded-full flex items-center justify-center">
-          <IoMdCheckmark className="text-white size-5" />
+          <BiSupport className="text-white size-5" />
           </div>
         </div>
         <div className="w-1/2 pl-8">
@@ -86,7 +89,7 @@ const Timeline = () => {
         </div>
         <div className="relative z-10">
           <div className="bg-gray-400 w-8 h-8 rounded-full flex items-center justify-center">
-          <IoHome className="text-white size-4" />
+          <LuFileCheck2 className="text-white size-4" />
           </div>
         </div>
         <div className="w-1/2" />

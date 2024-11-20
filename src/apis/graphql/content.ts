@@ -29,10 +29,11 @@ export async function getAllSlugs() {
     `,
   });
 
+  // Return a combined array of slugs from categories, pages, and posts
   return [
-    ...data.categories.nodes.map((n: NodeWithSlug) => n.slug),
-    ...data.pages.nodes.map((n: NodeWithSlug) => n.slug),
-    ...data.posts.nodes.map((n: NodeWithSlug) => n.slug),
+    ...data.categories?.nodes?.map((n: NodeWithSlug) => n.slug) || [],
+    ...data.pages?.nodes?.map((n: NodeWithSlug) => n.slug) || [],
+    ...data.posts?.nodes?.map((n: NodeWithSlug) => n.slug) || [],
   ];
 }
 
@@ -132,9 +133,10 @@ export async function getContentBySlug(slug: string) {
     variables: { slug },
   });
 
-  if (data.category) return { ...data.category, type: "category" };
-  if (data.page) return { ...data.page, type: "page" };
-  if (data.post) return { ...data.post, type: "post" };
+  // Safely return data depending on which type was found
+  if (data?.category) return { ...data.category, type: "category" };
+  if (data?.page) return { ...data.page, type: "page" };
+  if (data?.post) return { ...data.post, type: "post" };
 
-  return null;
+  return null; // Return null if no category, page, or post was found
 }

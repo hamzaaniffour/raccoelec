@@ -2,10 +2,7 @@
 import React, { useEffect, useState } from "react";
 import emailjs from "emailjs-com";
 import { PiUsersThreeLight } from "react-icons/pi";
-import {
-  IoMailOutline,
-  IoStopwatchOutline,
-} from "react-icons/io5";
+import { IoMailOutline, IoStopwatchOutline } from "react-icons/io5";
 import { SlLocationPin } from "react-icons/sl";
 import { LuDoorOpen } from "react-icons/lu";
 import { MdOutlineHomeWork } from "react-icons/md";

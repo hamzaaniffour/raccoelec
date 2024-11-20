@@ -7,7 +7,6 @@ const Carousel = () => {
   const scrollNext = () => {
     const carousel = carouselRef.current;
     if (carousel) {
-      // Scroll the width of one child element
       const childWidth = carousel.firstElementChild?.clientWidth || 0;
       carousel.scrollBy({ left: childWidth, behavior: "smooth" });
     }

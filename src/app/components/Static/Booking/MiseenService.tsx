@@ -79,7 +79,6 @@ const Raccordement = () => {
       localStorage.setItem("formData", JSON.stringify(formData)); // Save before switching
     }
   };
-  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -119,18 +118,21 @@ const Raccordement = () => {
         ? "step3"
         : "step4"]: {
         ...formData[ // existing logic to update formData
-          currentForm === "first_form" ? "step1"
-          : currentForm === "second_form" ? "step2"
-          : currentForm === "three_form" ? "step3"
-          : "step4"
+          currentForm === "first_form"
+            ? "step1"
+            : currentForm === "second_form"
+            ? "step2"
+            : currentForm === "three_form"
+            ? "step3"
+            : "step4"
         ],
         [name]: value,
       },
     });
-  
+
     // Save to localStorage
     localStorage.setItem("formData", JSON.stringify(formData));
-    
+
     // Show textarea if the radio option is selected
     if (value === "Oui je souhaite préciser quelques informations.") {
       // setShowTextarea(true);
@@ -138,9 +140,10 @@ const Raccordement = () => {
       // setShowTextarea(false);
     }
   };
-  
 
-  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextareaChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const { value } = event.target;
     setFormData({
       ...formData,
@@ -289,7 +292,6 @@ const Raccordement = () => {
       handleFormSwitch("five_form", "sp5", "sp4");
     }
   };
-  
 
   return (
     <div className="flex justify-center items-center w-full mb-20 mt-20">
@@ -981,103 +983,107 @@ const Raccordement = () => {
           </div>
         )}
 
-{currentForm === "four_form" && (
-  <div
-    id="four_form"
-    className="w-full p-[40px] rounded"
-    style={{ boxShadow: "0 10px 30px 0 rgba(62, 87, 111, 0.2)" }}
-  >
-    <div className="text-center">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-8">
-        Avez-vous d&apos;autres informations utiles à nous communiquer
-        concernant votre projet de raccordement ?
-      </h1>
-      <div className="flex justify-center space-x-4 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="DeliveryPriority1"
-              className="viab2 transition-all duration-300 flex cursor-pointer h-[80px] items-center justify-center flex-col gap-4 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-[#005EB8] has-[:checked]:ring-1 has-[:checked]:ring-[#005EB8] has-[:checked]:bg-[#bfd7ed]"
-            >
-              <p className="text-slate-800 font-semibold text-[17px] text-center">
-                Oui je souhaite préciser quelques informations.
-              </p>
-              <input
-                type="radio"
-                name="portesFenetres"
-                value="Oui je souhaite préciser quelques informations."
-                id="DeliveryPriority1"
-                className="sr-only"
-                onChange={handleRadioChange}
-              />
-            </label>
-            {errors.portesFenetres && (
-              <p className="text-red-500">{errors.portesFenetres}</p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="DeliveryPriority2"
-              className="viab2 transition-all duration-300 flex cursor-pointer h-[80px] items-center justify-center flex-col gap-4 rounded-xl border border-slate-300 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-[#005EB8] has-[:checked]:ring-1 has-[:checked]:ring-[#005EB8] has-[:checked]:bg-[#bfd7ed]"
-            >
-              <p className="text-slate-800 font-semibold text-[17px] text-center">
-                Non. Je souhaite maintenant finaliser ma demande.
-              </p>
-              <input
-                type="radio"
-                name="portesFenetres"
-                value="Non. Je souhaite maintenant finaliser ma demande."
-                id="DeliveryPriority2"
-                className="sr-only"
-                onChange={handleRadioChange}
-              />
-            </label>
-            {errors.portesFenetres && (
-              <p className="text-red-500">{errors.portesFenetres}</p>
-            )}
-          </div>
-        </div>
-      </div>
+        {currentForm === "four_form" && (
+          <div
+            id="four_form"
+            className="w-full p-[40px] rounded"
+            style={{ boxShadow: "0 10px 30px 0 rgba(62, 87, 111, 0.2)" }}
+          >
+            <div className="text-center">
+              <h1 className="text-2xl font-semibold text-gray-800 mb-8">
+                Avez-vous d&apos;autres informations utiles à nous communiquer
+                concernant votre projet de raccordement ?
+              </h1>
+              <div className="flex justify-center space-x-4 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label
+                      htmlFor="DeliveryPriority1"
+                      className="viab2 transition-all duration-300 flex cursor-pointer h-[80px] items-center justify-center flex-col gap-4 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-[#005EB8] has-[:checked]:ring-1 has-[:checked]:ring-[#005EB8] has-[:checked]:bg-[#bfd7ed]"
+                    >
+                      <p className="text-slate-800 font-semibold text-[17px] text-center">
+                        Oui je souhaite préciser quelques informations.
+                      </p>
+                      <input
+                        type="radio"
+                        name="portesFenetres"
+                        value="Oui je souhaite préciser quelques informations."
+                        id="DeliveryPriority1"
+                        className="sr-only"
+                        onChange={handleRadioChange}
+                      />
+                    </label>
+                    {errors.portesFenetres && (
+                      <p className="text-red-500">{errors.portesFenetres}</p>
+                    )}
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="DeliveryPriority2"
+                      className="viab2 transition-all duration-300 flex cursor-pointer h-[80px] items-center justify-center flex-col gap-4 rounded-xl border border-slate-300 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-[#005EB8] has-[:checked]:ring-1 has-[:checked]:ring-[#005EB8] has-[:checked]:bg-[#bfd7ed]"
+                    >
+                      <p className="text-slate-800 font-semibold text-[17px] text-center">
+                        Non. Je souhaite maintenant finaliser ma demande.
+                      </p>
+                      <input
+                        type="radio"
+                        name="portesFenetres"
+                        value="Non. Je souhaite maintenant finaliser ma demande."
+                        id="DeliveryPriority2"
+                        className="sr-only"
+                        onChange={handleRadioChange}
+                      />
+                    </label>
+                    {errors.portesFenetres && (
+                      <p className="text-red-500">{errors.portesFenetres}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
 
-      {/* Display additional info textarea if specific radio option is selected */}
-      {formData.step4.portesFenetres === "Oui je souhaite préciser quelques informations." && (
-        <div className="mb-8">
-          <label htmlFor="additionalInfo" className="mb-2 block text-sm font-medium text-gray-900 text-left">
-            Veuillez nous fournir toutes informations nécessaires à une meilleure compréhension de votre projet :
-          </label>
-          <textarea
-            name="additionalInfo"
-            value={formData.step4.additionalInfo}
-            onChange={handleTextareaChange}
-            className="w-full p-4 border border-gray-300 rounded-md"
-            placeholder="Entrez vos informations supplémentaires ici..."
-          />
-          {/* {errors.additionalInfo && (
+              {/* Display additional info textarea if specific radio option is selected */}
+              {formData.step4.portesFenetres ===
+                "Oui je souhaite préciser quelques informations." && (
+                <div className="mb-8">
+                  <label
+                    htmlFor="additionalInfo"
+                    className="mb-2 block text-sm font-medium text-gray-900 text-left"
+                  >
+                    Veuillez nous fournir toutes informations nécessaires à une
+                    meilleure compréhension de votre projet :
+                  </label>
+                  <textarea
+                    name="additionalInfo"
+                    value={formData.step4.additionalInfo}
+                    onChange={handleTextareaChange}
+                    className="w-full p-4 border border-gray-300 rounded-md"
+                    placeholder="Entrez vos informations supplémentaires ici..."
+                  />
+                  {/* {errors.additionalInfo && (
             <p className="text-red-500">{errors?.additionalInfo}</p>
           )} */}
-        </div>
-      )}
+                </div>
+              )}
 
-      {/* Navigation buttons */}
-      <div className="flex justify-center space-x-4">
-        <button
-          className="bg-white border border-gray-300 rounded-full text-gray-800 stepper-title py-3 px-10"
-          onClick={() => handleFormSwitch("three_form", "sp3", "sp4")}
-        >
-          Précédent
-        </button>
+              {/* Navigation buttons */}
+              <div className="flex justify-center space-x-4">
+                <button
+                  className="bg-white border border-gray-300 rounded-full text-gray-800 stepper-title py-3 px-10"
+                  onClick={() => handleFormSwitch("three_form", "sp3", "sp4")}
+                >
+                  Précédent
+                </button>
 
-        <button
-          className="stepper-title rounded-full py-3 px-10 text-white bg-[#16a974]"
-          onClick={() => handleContinue()} // Updated to call handleContinue instead of handleFormSwitch
-        >
-          Continuer
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+                <button
+                  className="stepper-title rounded-full py-3 px-10 text-white bg-[#16a974]"
+                  onClick={() => handleContinue()} // Updated to call handleContinue instead of handleFormSwitch
+                >
+                  Continuer
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {currentForm === "five_form" && (
           <div
@@ -1146,7 +1152,8 @@ const Raccordement = () => {
                 </li>
                 <li className="flex justify-start items-center gap-3 mb-3">
                   <LuDoorOpen className="size-7 inline-block text-slate-500" />
-                  {formData.step4.portesFenetres} {`:${formData.step4.additionalInfo}`}
+                  {formData.step4.portesFenetres}{" "}
+                  {`:${formData.step4.additionalInfo}`}
                 </li>
                 <span className="text-[#1523dc]"></span>
               </ul>

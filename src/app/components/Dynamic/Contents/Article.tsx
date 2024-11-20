@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Archivo } from "next/font/google";
 import RecentPosts from "@/app/components/Dynamic/Sidebar/RecentPosts";
-import CopyLinkButton from "@/app/components/Dynamic/Content/CopyLinkButton";
+import CopyLinkButton from "./CopyLinkButton";
 import { FaFacebookF, FaTwitter } from "react-icons/fa";
 import { BsPinterest } from "react-icons/bs";
 
@@ -12,20 +12,19 @@ const archivo = Archivo({
   variable: "--font-old-standard-tt",
 });
 
-const defaultImage = `https://dev-tastyeats.pantheonsite.io/wp-content/uploads/2024/10/loading.webp`;
+const defaultImage = `https://dev-foudrecipes.pantheonsite.io/wp-content/uploads/2024/10/loading.webp`;
 
-interface ArticleProps {
+interface PostProps {
   post: {
-    type: 'post';
     title: string;
     content: string;
-    featuredImage?: {
+    featuredImage: {
       node: {
         sourceUrl: string;
         altText: string;
         title: string;
       };
-    };
+    } | null;
     slug: string;
     author: {
       node: {
@@ -89,13 +88,13 @@ const generateTableOfContents = (content: string) => {
   return { toc, modifiedContent };
 };
 
-export default function Article({ post }: ArticleProps) {
-  if (!post || post.type !== 'post') {
-    return <div>Invalid post data</div>;
+export default function Post({ post }: PostProps) {
+  if (!post) {
+    return <div>Post not found</div>;
   }
 
   const { toc, modifiedContent } = generateTableOfContents(post.content);
-  const postUrl = `https://www.tirespedia.com/${post.slug}`;
+  const postUrl = `https://www.foudrecipes.com/${post.slug}`;
 
   return (
     <main className="max-w-[90%] sm:max-w-[95%] md:max-w-[1000px] lg:max-w-[1000px] xl:max-w-[1250px] mx-auto md:px-6 mt-16 mb-16">
@@ -105,7 +104,6 @@ export default function Article({ post }: ArticleProps) {
           post={post}
           modifiedContent={modifiedContent}
           postUrl={postUrl}
-          toc={toc} // Pass table of contents for mobile
         />
         <Sidebar />
       </div>
@@ -142,70 +140,39 @@ const TableOfContents = ({ toc }: { toc: { text: string; id: string }[] }) => (
   </nav>
 );
 
-const MobileTableOfContents = ({
-  toc,
-}: {
-  toc: { text: string; id: string }[];
-}) => (
-  <nav className="block lg:hidden mt-4 mb-6">
-    <h2
-      className={`${archivo.className} font-semibold text-xl mb-5 underline text-slate-700 decoration-amber-500 underline-offset-[3px]`}
-    >
-      What&apos;s Inside?
-    </h2>
-    <ul>
-      {toc.map((item) => (
-        <li
-          key={item.id}
-          className="mb-1.5 leading-[20px] border-b border-slate-200 pb-1.5"
-        >
-          <Link
-            href={`#${item.id}`}
-            className="toc-link text-slate-950 font-semibold text-[15px] underline decoration-amber-300"
-          >
-            {item.text}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  </nav>
-);
-
 const MainContent = ({
   post,
   modifiedContent,
   postUrl,
-  toc,
 }: {
-  post: ArticleProps["post"];
+  post: PostProps["post"];
   modifiedContent: string;
   postUrl: string;
-  toc: { text: string; id: string }[];
 }) => (
   <article className="lg:w-7/12 border-0 lg:border-x-2 border-slate-100 px-0 lg:px-8">
     <header>
       <nav aria-label="Breadcrumb" className="-mb-3">
-        <ol className="flex justify-start items-center gap-1.5">
-          <li className="text-gray-700 text-[13px] font-semibold">
+        <ol className="flex justify-start items-center gap-2">
+          <li className="text-gray-900 text-[13px] font-semibold">
             <Link href="/">Home</Link>
           </li>
           <li className="inline-block text-slate-500 text-sm">/</li>
-          <li className="text-gray-700 text-[13px] font-semibold">
+          <li className="text-gray-900 text-[13px] font-semibold">
             <Link href={`/${post.categories.nodes[0].slug}`}>
               {post.categories.nodes[0].name}
             </Link>
           </li>
           <li className="inline-block text-slate-500 text-sm">/</li>
           <li
-            className="text-gray-700 text-[13px] font-semibold"
+            className="text-gray-900 text-[13px] font-semibold"
             aria-current="page"
           >
-            {truncateContent(post.title, 25)}
+            {truncateContent(post.title, 35)}
           </li>
         </ol>
       </nav>
       <h1
-        className={`${archivo.className} text-[21px] lg:text-3xl font-black text-gray-900`}
+        className={`${archivo.className} text-3xl lg:text-4xl font-black text-gray-900`}
       >
         {post.title}
       </h1>
@@ -237,7 +204,7 @@ const MainContent = ({
       <p className="text-gray-600 mb-3 text-sm capitalize">
         Would you recommend this post?
       </p>
-      <div className="flex gap-3 mb-4">
+      <div className="flex gap-4 mb-4">
         <Link
           href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
             postUrl
@@ -246,7 +213,7 @@ const MainContent = ({
           rel="noopener noreferrer"
           className="flex justify-center items-center gap-0.5 text-sm text-slate-800 gap-y-1.5 font-semibold"
         >
-          <FaFacebookF className="text-[#1877F2] size-4 relative -top-[1px]" />
+          <FaFacebookF className="text-[#1877F2] size-5 relative -top-[1px]" />
           Facebook
         </Link>
         <Link
@@ -257,7 +224,7 @@ const MainContent = ({
           rel="noopener noreferrer"
           className="flex justify-center items-center gap-0.5 text-sm text-slate-800 gap-y-1.5 font-semibold"
         >
-          <FaTwitter className="text-[#1DA1F2] size-4 relative -top-[1px]" />
+          <FaTwitter className="text-[#1DA1F2] size-5 relative -top-[1px]" />
           Twitter
         </Link>
         <Link
@@ -270,7 +237,7 @@ const MainContent = ({
           rel="noopener noreferrer"
           className="flex justify-center items-center gap-1 text-sm text-slate-800 gap-y-1.5 font-semibold"
         >
-          <BsPinterest className="text-[#E60023] size-4 relative -top-[1px]" />
+          <BsPinterest className="text-[#E60023] size-5 relative -top-[1px]" />
           Pinterest
         </Link>
         <CopyLinkButton postUrl={postUrl} />
@@ -297,7 +264,7 @@ const MainContent = ({
           )}
         </figure>
       )}
-      <MobileTableOfContents toc={toc} /> {/* Mobile Table of Contents */}
+
       <div
         className="post_content text-slate-800 text-[17px] tracking-[.2px] leading-[1.5] mb-8"
         dangerouslySetInnerHTML={{ __html: modifiedContent }}

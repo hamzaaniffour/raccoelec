@@ -3,10 +3,10 @@ import React from "react";
 import RecentPosts from "@/app/components/Dynamic/Sidebar/RecentPosts";
 
 const archivo = Archivo({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-old-standard-tt",
-});
+    subsets: ["latin"],
+    weight: ["400", "500", "600", "700"], 
+    variable: "--font-old-standard-tt",
+  });
 
 interface pageProps {
   page: {
@@ -31,7 +31,7 @@ export default function pagePage({ page }: pageProps) {
           <section>
             <div
               className="post_content"
-              dangerouslySetInnerHTML={{ __html: page.content ?? "" }}
+              dangerouslySetInnerHTML={{ __html: page.content ?? '' }}
             />
           </section>
         </div>

@@ -15,161 +15,161 @@ const Marquees = () => {
         style={{ transform: "translateX(-310px)" }}
       >
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-0 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-lepoint.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-challenges-300x114.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-lemonde.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-entreprendre.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-laprovence-300x95.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-forbes.webp" />
         </div>
         {/* Cloned items for seamless loop */}
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-forbes.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-challenges-300x114.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-lemonde.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-entreprendre.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-laprovence-300x95.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-lepoint.webp" />
         </div>
         {/* Cloned items for seamless loop */}
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-forbes.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-lepoint.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-challenges-300x114.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-lemonde.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-entreprendre.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-laprovence-300x95.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-forbes.webp" />
         </div>
         {/* Cloned items for seamless loop */}
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-forbes.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-challenges-300x114.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-lemonde.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-entreprendre.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-laprovence-300x95.webp" />
         </div>
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-lepoint.webp" />
         </div>
         {/* Cloned items for seamless loop */}
         <div
-          className="carousel-item bg-slate-200 rounded-md py-4 px-3 flex justify-center items-center"
+          className="carousel-item bg-slate-200 rounded-md py-5 px-6 flex justify-center items-center"
           role="listitem"
         >
           <img src="https://raccoelec.fr/wp-content/uploads/2024/06/logo-forbes.webp" />
