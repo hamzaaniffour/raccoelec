@@ -1,8 +1,8 @@
 import React from "react";
 import { BiSupport } from "react-icons/bi";
 import { FaRegPenToSquare } from "react-icons/fa6";
-import { IoMdCheckmark, IoMdPaper } from "react-icons/io";
-import { IoFolderOpenOutline, IoHome } from "react-icons/io5";
+import { IoMdPaper } from "react-icons/io";
+import { IoFolderOpenOutline } from "react-icons/io5";
 import { LuFileCheck2 } from "react-icons/lu";
 
 const Timeline = () => {

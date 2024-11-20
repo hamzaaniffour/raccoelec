@@ -9,10 +9,10 @@ interface FormData {
   message: string;
 }
 
-interface StatusState {
-  type: "success" | "error" | null;
-  message: string;
-}
+// interface StatusState {
+//   type: "success" | "error" | null;
+//   message: string;
+// }
 
 const Contactus = () => {
   const [formData, setFormData] = useState<FormData>({

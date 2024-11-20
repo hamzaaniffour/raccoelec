@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const Tab1 = () => {
   const services = [
@@ -78,10 +79,10 @@ const Tab1 = () => {
             className="w-full p-4 border-[1px] border-[#1523dc] rounded-2xl group-hover:scale-105 group-focus:scale-105 transition-transform duration-[700ms] delay-[100ms] taos:opacity-0 taos:translate-y-[100px] [animation-iteration-count:infinite] taos-init"
             data-taos-class="w-full p-4 border-[1px] border-[#1523dc] rounded-2xl group-hover:scale-105 group-focus:scale-105 transition-transform duration-[700ms] delay-[100ms] taos:opacity-0 taos:translate-y-[100px] [animation-iteration-count:infinite] taos-init"
           >
-            <img
+            <Image
               className="rounded-2xl"
-              src={service.imgSrc}
-              // alt={service.title}
+              src={service.imgSrc!}
+              alt="Image"
               width={500}
               height={500}
             />

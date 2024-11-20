@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import React from 'react'
-import { LuMenu } from 'react-icons/lu'
 import { MdPhone } from 'react-icons/md'
 import Drawer from './Mobile/Drawer'
 

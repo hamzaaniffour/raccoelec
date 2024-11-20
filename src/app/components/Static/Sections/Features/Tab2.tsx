@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const Tab2 = () => {
   const services = [
@@ -27,8 +28,7 @@ const Tab2 = () => {
       imgSrc:
         "https://raccoelec.fr/wp-content/uploads/2024/06/cp-enedis-et-we-love-green-inaugurent-la-saison-des-festivals-decarbones-home-desktop.jpg",
       title: "Suppression de branchement électrique",
-      description:
-        "retrait ou suppression d’un compteur Linky.",
+      description: "retrait ou suppression d’un compteur Linky.",
       buttonText: "Faire ma demande",
       buttonLink: "/modification-de-branchement",
     },
@@ -78,10 +78,10 @@ const Tab2 = () => {
             className="w-full p-4 border-[1px] border-[#1523dc] rounded-2xl group-hover:scale-105 group-focus:scale-105 transition-transform duration-[700ms] delay-[100ms] taos:opacity-0 taos:translate-y-[100px] [animation-iteration-count:infinite] taos-init"
             data-taos-class="w-full p-4 border-[1px] border-[#1523dc] rounded-2xl group-hover:scale-105 group-focus:scale-105 transition-transform duration-[700ms] delay-[100ms] taos:opacity-0 taos:translate-y-[100px] [animation-iteration-count:infinite] taos-init"
           >
-            <img
+            <Image
               className="rounded-2xl"
-              src={service.imgSrc}
-              // alt={service.title}
+              src={service.imgSrc!}
+              alt="Image"
               width={500}
               height={500}
             />
