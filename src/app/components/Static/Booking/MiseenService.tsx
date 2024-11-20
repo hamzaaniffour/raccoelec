@@ -57,7 +57,7 @@ const Raccordement = () => {
     number: "",
     portesFenetres: "",
   });
-  const [showTextarea, setShowTextarea] = useState(false); // State for textarea visibility
+  // const [showTextarea, setShowTextarea] = useState(false);
 
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
@@ -133,9 +133,9 @@ const Raccordement = () => {
     
     // Show textarea if the radio option is selected
     if (value === "Oui je souhaite préciser quelques informations.") {
-      setShowTextarea(true);
+      // setShowTextarea(true);
     } else {
-      setShowTextarea(false);
+      // setShowTextarea(false);
     }
   };
   
