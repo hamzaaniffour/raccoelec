@@ -7,7 +7,7 @@ import { LuFileCheck2 } from "react-icons/lu";
 
 const Timeline = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen mb-20">
+    <div className="flex justify-center items-center min-h-screen mb-20 px-5 lg:px-0">
   <div className="w-full max-w-4xl">
     <div className="relative">
       <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-gray-200" />

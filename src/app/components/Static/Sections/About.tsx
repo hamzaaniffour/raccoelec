@@ -4,7 +4,7 @@ import { IoPlay } from "react-icons/io5";
 const About = () => {
   return (
     <div
-      className="mb-20 max-w-6xl mx-auto duration-[700ms] delay-[100ms] taos:opacity-0 taos:translate-y-[100px] [animation-iteration-count:infinite] taos-init"
+      className="mb-20 px-5 lg:px-0 max-w-6xl mx-auto duration-[700ms] delay-[100ms] taos:opacity-0 taos:translate-y-[100px] [animation-iteration-count:infinite] taos-init"
       data-taos-class="mt-[100px] mb-[70px] max-w-6xl mx-auto duration-[700ms] delay-[100ms] taos:opacity-0 taos:translate-y-[100px] [animation-iteration-count:infinite] taos-init"
     >
       <div className="bg-[#1523dc21] flex justify-between flex-col md:flex-row-reverse items-center p-[40px] rounded-[16px] gap-16">

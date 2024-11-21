@@ -79,8 +79,8 @@ const Footer = () => {
   return (
     <>
       <FooterBar />
-      <div className="py-10 bg-[#283136] pb-5">
-        <div className="max-w-7xl lg:max-w-6xl mx-auto px-4">
+      <div className="py-10 bg-[#283136] pb-5 px-5 lg:px-0">
+        <div className="max-w-7xl lg:max-w-6xl mx-auto">
           <div className="lg:flex gap-10">
             <div className="lg:w-3/12">
               <Link href="/">

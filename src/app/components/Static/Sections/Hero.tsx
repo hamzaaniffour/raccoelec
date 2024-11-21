@@ -24,24 +24,24 @@ const Hero = () => {
               Confiez vos démarches au nº 1 du marché : zéro stress, rapide et
               économique.
             </p>
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8">
               <Link
                 href="/raccordement-electrique"
-                className="bg-white text-black font-bold hover:bg-[#149163] hover:text-white transition-all px-6 py-3 rounded-full"
+                className="bg-white text-black w-full text-center lg:w-auto font-bold hover:bg-[#149163] hover:text-white transition-all px-6 py-3 rounded-full"
               >
                 Raccordement électrique
               </Link>
               <Link
                 href="/modification-de-branchement"
-                className="bg-white text-black font-bold hover:bg-[#149163] hover:text-white transition-all px-6 py-3 rounded-full"
+                className="bg-white text-black w-full text-center lg:w-auto font-bold hover:bg-[#149163] hover:text-white transition-all px-6 py-3 rounded-full"
               >
                 Modification de branchement
               </Link>
-              <Link href="/mise-en-service" className="bg-white text-black font-bold hover:bg-[#149163] hover:text-white transition-all px-16 py-3 rounded-full">
+              <Link href="/mise-en-service" className="bg-white text-black w-full text-center lg:w-auto font-bold hover:bg-[#149163] hover:text-white transition-all px-16 py-3 rounded-full">
                 Mise en service
               </Link>
             </div>
-            <div className="flex justify-start items-center space-x-8 mt-20 relative xl:left-28">
+            <div className="flex justify-center lg:justify-start items-center space-x-8 mt-20 relative xl:left-28">
               <div className="flex justify-center items-center flex-col">
                 <img
                   src="https://raccoelec.fr/wp-content/uploads/2024/06/Google_logo-svg.png"
@@ -55,7 +55,7 @@ const Hero = () => {
                   <span className="text-yellow-400 text-2xl">★</span>
                   <span className="text-yellow-400 text-2xl">★</span>
                 </div>
-                <p className="font-bold text-white text-md">
+                <p className="font-bold text-white text-md text-center">
                   4.4/5 | 10000+ reviews
                 </p>
               </div>
@@ -72,7 +72,7 @@ const Hero = () => {
                   <span className="text-yellow-400 text-2xl">★</span>
                   <span className="text-yellow-400 text-2xl">★</span>
                 </div>
-                <p className="font-bold text-white text-md">
+                <p className="font-bold text-white text-md text-center">
                   4.4/5 | 10000+ reviews
                 </p>
               </div>

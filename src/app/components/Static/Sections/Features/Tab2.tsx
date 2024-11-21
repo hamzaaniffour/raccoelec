@@ -16,31 +16,31 @@ const Tab1 = () => {
       id: 1,
       imgSrc:
         "https://raccoelec.fr/wp-content/uploads/2024/06/cp-enedis-et-we-love-green-inaugurent-la-saison-des-festivals-decarbones-home-desktop.jpg",
-      title: "Viabilisation de terrain",
+      title: "Déplacement de compteur",
       description:
-        "Poser un coffret en limite de votre propriété. Reliez votre terrain au réseau électrique dEnedis.",
+        "Déplacement d’un compteur Linky et/ou de son disjoncteur.",
       buttonText: "Faire ma demande",
-      buttonLink: "/raccordement-electrique",
+      buttonLink: "/modification-de-branchement",
     },
     {
       id: 2,
       imgSrc:
         "https://raccoelec.fr/wp-content/uploads/2024/06/shutterstock_1342362014.jpg",
-      title: "Raccordement provisoire",
+      title: "Modification de branchement",
       description:
-        "Installer un compteur de chantier EDF ou un branchement provisoire.",
+        "Déplacement d’un branchement électrique (aérien ou sous-terrain).",
       buttonText: "Faire ma demande",
-      buttonLink: "/raccordement-electrique",
+      buttonLink: "/modification-de-branchement",
     },
     {
       id: 3,
       imgSrc:
         "https://raccoelec.fr/wp-content/uploads/2024/06/cp-enedis-et-we-love-green-inaugurent-la-saison-des-festivals-decarbones-home-desktop.jpg",
-      title: "Raccordement définitif",
+      title: "Suppression de branchement électrique",
       description:
-        "Demander un raccordement enedis neuf avec pose de compteur Linky.",
+        "Retrait ou suppression d’un compteur Linky",
       buttonText: "Faire ma demande",
-      buttonLink: "/raccordement-electrique",
+      buttonLink: "/modification-de-branchement",
     },
   ];
 

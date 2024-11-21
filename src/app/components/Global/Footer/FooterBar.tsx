@@ -3,7 +3,7 @@ import React from "react";
 const FooterBar = () => {
   return (
     <div className="bg-gray-100 py-4">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-5 lg:px-0">
         <div className="flex flex-col lg:flex-row items-start">
           <span className="text-gray-600 font-semibold text-md mb-4 lg:mb-0 mr-8">
             Dans les médias :

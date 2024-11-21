@@ -2,15 +2,17 @@
 import React, { useEffect, useState } from "react";
 import emailjs from "emailjs-com";
 import { PiUsersThreeLight } from "react-icons/pi";
-import { IoMailOutline, IoStopwatchOutline } from "react-icons/io5";
+import { IoFolderOpenOutline, IoMailOutline, IoStopwatchOutline } from "react-icons/io5";
 import { SlLocationPin } from "react-icons/sl";
-import { LuDoorOpen } from "react-icons/lu";
+import { LuDoorOpen, LuFileCheck2 } from "react-icons/lu";
 import { MdOutlineHomeWork } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import { AiOutlineUserSwitch } from "react-icons/ai";
 import { FaRegSquare } from "react-icons/fa";
 import { LiaCompressArrowsAltSolid } from "react-icons/lia";
 import { GrUserPolice } from "react-icons/gr";
+import { IoMdPaper } from "react-icons/io";
+import { FaRegPenToSquare } from "react-icons/fa6";
 
 const numbers = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 36, "Plus de 36"];
 
@@ -294,7 +296,7 @@ const Raccordement = () => {
   // };
 
   return (
-    <div className="flex justify-center items-center w-full mb-20 mt-20">
+    <div className="flex justify-center items-center w-full mb-10 mt-10">
       <div className="max-w-[900px] w-full">
         <div className="mb-8 mt-10">
           <div className="flex items-center justify-center mt-10">
@@ -305,7 +307,9 @@ const Raccordement = () => {
                 }`}
                 id="sp1"
               >
-                Pour commencer
+                <IoMdPaper className={`size-5 inline-block lg:hidden ${
+                  activeSteps.includes("sp1") ? "active" : ""
+                }`} /> <span className="hidden lg:inline-block">Pour commencer</span>
               </div>
               <span>&gt;</span>
               <div
@@ -314,7 +318,9 @@ const Raccordement = () => {
                 }`}
                 id="sp2"
               >
-                Mon projet
+                <IoFolderOpenOutline className={`size-5 inline-block lg:hidden ${
+                  activeSteps.includes("sp2") ? "active" : ""
+                }`} /> <span className="hidden lg:inline-block">Mon Project</span>
               </div>
               <span>&gt;</span>
               <div
@@ -323,7 +329,9 @@ const Raccordement = () => {
                 }`}
                 id="sp3"
               >
-                Mon planning
+                <FaRegPenToSquare className={`size-5 inline-block lg:hidden ${
+                  activeSteps.includes("sp2") ? "active" : ""
+                }`} /> <span className="hidden lg:inline-block">Mon planning</span>
               </div>
               <span>&gt;</span>
               <div
@@ -332,7 +340,9 @@ const Raccordement = () => {
                 }`}
                 id="sp4"
               >
-                Récapitulatif
+                <LuFileCheck2 className={`size-5 inline-block lg:hidden ${
+                  activeSteps.includes("sp1") ? "active" : ""
+                }`} /> <span className="hidden lg:inline-block">Récapitulatif</span>
               </div>
             </div>
           </div>
@@ -1019,10 +1029,10 @@ const Raccordement = () => {
               propriété ? (La présence d&lsquo;un coffret signifie que le
               terrain est viabilisé)?
             </h2>
-            <div className="flex space-x-4 mb-14">
+            <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4 mb-14">
               {/* Option 1 */}
-              <label className="flex flex-col items-center cursor-pointer">
-                <div className="relative">
+              <label className="flex flex-col w-full items-center cursor-pointer">
+                <div className="relative w-full">
                   <input
                     type="radio"
                     name="terrain"
@@ -1030,7 +1040,7 @@ const Raccordement = () => {
                     className="sr-only peer"
                     onChange={handleRadioChange}
                   />
-                  <div className="viab2 transition-all duration-300 w-64 h-74 rounded-lg p-3 border-2 border-gray-300 peer-checked:border-[#16a974] overflow-hidden">
+                  <div className="viab2 transition-all duration-300 w-full h-74 rounded-lg p-3 border-2 border-gray-300 peer-checked:border-[#16a974] overflow-hidden">
                     <div className="text-black text-sm text-center mb-0.5">
                       Oui, mon terrain est viabilisé
                     </div>
@@ -1046,8 +1056,8 @@ const Raccordement = () => {
                 </div>
               </label>
               {/* Option 2 */}
-              <label className="flex flex-col items-center cursor-pointer">
-                <div className="relative">
+              <label className="flex flex-col w-full items-center cursor-pointer">
+                <div className="relative w-full">
                   <input
                     type="radio"
                     name="terrain"
@@ -1055,7 +1065,7 @@ const Raccordement = () => {
                     className="sr-only peer"
                     onChange={handleRadioChange}
                   />
-                  <div className="viab2 transition-all duration-300 w-64 h-74 rounded-lg p-3 border-2 border-gray-300 peer-checked:border-[#16a974] overflow-hidden">
+                  <div className="viab2 transition-all duration-300 w-full h-74 rounded-lg p-3 border-2 border-gray-300 peer-checked:border-[#16a974] overflow-hidden">
                     <div className="text-black text-sm text-center mb-0.5">
                       Non, mon terrain n&lsquo;est pas
                     </div>
@@ -1142,7 +1152,7 @@ const Raccordement = () => {
               </button>
               <button
                 id="next2"
-                onClick={() => handleFormSwitch("four_form", "sp4", "sp3")}
+                onClick={() => handleFormSwitch("four_form", "sp3", "sp4")}
                 type="button"
                 className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
               >
@@ -1167,10 +1177,10 @@ const Raccordement = () => {
               nous joindre une photo du bâtiment avec les portes et fenêtres
               installées.
             </p>
-            <div className="flex space-x-4 mb-14">
+            <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4 mb-14">
               {/* Option 1 */}
-              <label className="flex flex-col items-center cursor-pointer">
-                <div className="relative">
+              <label className="flex flex-col w-full items-center cursor-pointer">
+                <div className="relative w-full">
                   <input
                     type="radio"
                     name="portesFenetres"
@@ -1178,7 +1188,7 @@ const Raccordement = () => {
                     className="sr-only peer"
                     onChange={handleRadioChange}
                   />
-                  <div className="viab2 transition-all duration-300 w-64 h-74 rounded-lg p-3 border-2 border-gray-300 peer-checked:border-[#16a974] overflow-hidden">
+                  <div className="viab2 transition-all duration-300 w-full h-74 rounded-lg p-3 border-2 border-gray-300 peer-checked:border-[#16a974] overflow-hidden">
                     <div className="text-black text-lg text-center mb-0.5">
                       Oui
                     </div>
@@ -1194,8 +1204,8 @@ const Raccordement = () => {
                 </div>
               </label>
               {/* Option 2 */}
-              <label className="flex flex-col items-center cursor-pointer">
-                <div className="relative">
+              <label className="flex flex-col w-full items-center cursor-pointer">
+                <div className="relative w-full">
                   <input
                     type="radio"
                     name="portesFenetres"
@@ -1203,7 +1213,7 @@ const Raccordement = () => {
                     className="sr-only peer"
                     onChange={handleRadioChange}
                   />
-                  <div className="viab2 transition-all duration-300 w-64 h-74 rounded-lg p-3 border-2 border-gray-300 peer-checked:border-[#16a974] overflow-hidden">
+                  <div className="viab2 transition-all duration-300 w-full h-74 rounded-lg p-3 border-2 border-gray-300 peer-checked:border-[#16a974] overflow-hidden">
                     <div className="text-black text-lg text-center mb-0.5">
                       Non
                     </div>
@@ -1316,7 +1326,7 @@ const Raccordement = () => {
             <h2 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-4">
               Disposez-vous de votre autorisation d&lsquo;urbanisme?
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label
                   htmlFor="deja"
@@ -1372,14 +1382,14 @@ const Raccordement = () => {
               <button
                 id="prev3"
                 type="button"
-                onClick={() => handleFormSwitch("three_form", "sp3", "sp4")}
+                onClick={() => handleFormSwitch("three_form", "sp5", "sp4")}
                 className="bg-white border-[1px] border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
               >
                 Précédent
               </button>
               <button
                 id="next3"
-                onClick={() => handleFormSwitch("five_form", "sp5", "sp4")}
+                onClick={() => handleFormSwitch("five_form", "sp4", "sp5")}
                 type="button"
                 className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
               >
@@ -1575,12 +1585,12 @@ const Raccordement = () => {
                 </li>
               </ul>
             </div>
-            <div className="flex justify-end items-center gap-3 mt-10">
+            <div className="lg:flex space-y-2 lg:space-y-0 justify-end items-center gap-3 mt-10">
               <button
                 id="prev4"
                 onClick={() => handleFormSwitch("four_form", "sp4", "sp5")}
                 type="button"
-                className="bg-white border-[1px] border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
+                className="bg-white border-[1px] w-full lg:w-auto border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
               >
                 Précédent
               </button>
@@ -1588,7 +1598,7 @@ const Raccordement = () => {
                 id="submit"
                 type="button"
                 onClick={sendEmail}
-                className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
+                className="bg-blue-600 border-[1px] w-full lg:w-auto border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
               >
                 Transmettre ma demande
               </button>

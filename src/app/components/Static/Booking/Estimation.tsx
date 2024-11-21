@@ -108,7 +108,7 @@ const Estimation = () => {
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto py-20 mt-16">
+    <div className="max-w-5xl mx-auto py-20 mt-16 px-5 lg:px-0">
       <div className="flex justify-center items-center flex-col mb-20">
         <h2 className="text-3xl leading-tight font-bold text-[#96cd32] text-center mb-6 max-w-[600px]">
           Informations générales sur le prix et les délais d’un raccordement
