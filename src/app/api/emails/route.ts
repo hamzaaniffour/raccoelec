@@ -1,19 +1,11 @@
-// pages/api/sendEmail.ts
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
-  const { formData } = req.body;
+export async function POST(req: NextRequest) {
+  const { formData } = await req.json();
 
   if (!formData || Object.keys(formData).length === 0) {
-    return res.status(400).json({ message: "No form data found" });
+    return NextResponse.json({ message: "No form data found" }, { status: 400 });
   }
 
   // Create a transporter object using the default SMTP transport
@@ -55,11 +47,9 @@ export default async function handler(
   try {
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent successfully:", info.response);
-    res.status(200).json({ message: "Form submitted successfully!" });
+    return NextResponse.json({ message: "Form submitted successfully!" });
   } catch (error) {
     console.error("Error sending email:", error);
-    res
-      .status(500)
-      .json({ message: "Failed to submit form. Please try again later." });
+    return NextResponse.json({ message: "Failed to submit form. Please try again later." }, { status: 500 });
   }
 }
