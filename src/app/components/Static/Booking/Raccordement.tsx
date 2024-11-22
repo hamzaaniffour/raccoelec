@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import nodemailer from "nodemailer";
 import { PiUsersThreeLight } from "react-icons/pi";
 import {
   IoFolderOpenOutline,

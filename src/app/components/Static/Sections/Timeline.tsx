@@ -23,7 +23,7 @@ const Timeline = () => {
     gsap.set(icons, { scale: 0 });
 
     // Animate cards and icons when they come into view
-    cards.forEach((card, index) => {
+    cards.forEach((card) => {
       gsap.to(card, {
         x: 0,
         opacity: 1,
