@@ -214,7 +214,7 @@
 }
 
 .carousel-container {
-  animation: scroll 40s linear infinite;
+  animation: scroll 30s linear infinite;
 }
 
 
@@ -226,16 +226,123 @@
 
 /* Animation for top row moving down */
 .row.top-row.move-down {
-  transform: translateY(100px);
+  transform: translateY(88px);
 }
 
 /* Animation for bottom row moving up */
 .row.bottom-row.move-up {
-  transform: translateY(-100px);
+  transform: translateY(-80px);
 }
 
-/* Fix spacing issue */
-tbody {
-  /* display: block; */
-  /* position: relative; */
+.post_content p {
+  @apply mb-8;
+}
+.post_content h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply mb-2;
+  @apply text-[25px];
+  @apply font-semibold;
+  @apply text-gray-900;
+}
+.post_content ul,
+ol {
+  @apply mb-8;
+}
+
+.post_content iframe {
+  @apply mb-8;
+  width: 100%;
+}
+
+.post_content a {
+  text-decoration: underline;
+  @apply decoration-[#1523dc];
+  transition: 0.3s;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.post_content a:hover {
+  @apply bg-[#1523dc];
+}
+
+.post_content {
+  list-style-type: none;
+  @apply pl-0;
+}
+.post_content li {
+  @apply mb-3;
+  font-size: 15px;
+}
+.post_content li:before {
+  content: "";
+  display: block;
+  float: left;
+  height: 7px;
+  width: 7px;
+  border-radius: 0px;
+  margin-top: 8px;
+  @apply bg-[#1523dc];
+  font-size: 1.2em;
+  margin-right: 6px;
+}
+
+.post_content img {
+  @apply mb-8;
+}
+
+.post_content table {
+  @apply w-full;
+  @apply border-collapse;
+  @apply mb-6;
+}
+
+.post_content table th,
+.post_content table td {
+  @apply border;
+  @apply border-gray-300;
+  @apply p-4;
+  @apply text-left;
+  @apply text-sm;
+  @apply text-gray-900;
+}
+
+.post_content table th {
+  @apply bg-gray-100;
+  @apply font-semibold;
+  @apply text-gray-700;
+}
+
+.post_content table tr:nth-child(even) {
+  @apply bg-gray-50;
+}
+
+.post_content table tr:hover {
+  @apply bg-gray-100;
+}
+
+.post_content blockquote {
+  @apply border-l-4;
+  @apply border-slate-400;
+  @apply pl-4;
+  @apply py-2;
+  @apply italic;
+  @apply text-gray-700;
+  @apply my-6;
+  @apply mt-0;
+  @apply mb-7;
+  @apply bg-gray-100;
+  @apply inline-flex;
+  @apply items-center;
+}
+
+.post_content blockquote p {
+  @apply text-lg;
+  @apply leading-relaxed;
+  @apply inline;
+  @apply not-italic;
+  @apply mb-0;
 }

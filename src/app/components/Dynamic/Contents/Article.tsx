@@ -94,7 +94,7 @@ export default function Post({ post }: PostProps) {
   }
 
   const { toc, modifiedContent } = generateTableOfContents(post.content);
-  const postUrl = `https://www.foudrecipes.com/${post.slug}`;
+  const postUrl = `https://www.raccoelec.fr/${post.slug}`;
 
   return (
     <main className="max-w-[90%] sm:max-w-[95%] md:max-w-[1000px] lg:max-w-[1000px] xl:max-w-[1250px] mx-auto md:px-6 mt-16 mb-16">
@@ -115,9 +115,9 @@ const TableOfContents = ({ toc }: { toc: { text: string; id: string }[] }) => (
   <nav className="lg:w-2/12 hidden lg:block">
     <div className="sticky top-[100px]">
       <h2
-        className={`${archivo.className} font-semibold text-xl mb-5 underline text-slate-700 decoration-amber-500 underline-offset-[3px]`}
+        className={`${archivo.className} font-semibold text-lg mb-5 underline text-slate-700 decoration-[#1523dc] underline-offset-[3px]`}
       >
-        What&apos;s Inside?
+        Qu&#39;y a-t-il à l&#39;intérieur?
       </h2>
       <div className="overflow-y-auto h-[550px] scrollbar-thin scrollbar-thumb-slate-500 scrollbar-track-transparent">
         <ul>
@@ -154,7 +154,7 @@ const MainContent = ({
       <nav aria-label="Breadcrumb" className="-mb-3">
         <ol className="flex justify-start items-center gap-2">
           <li className="text-gray-900 text-[13px] font-semibold">
-            <Link href="/">Home</Link>
+            <Link href="/">Accueil</Link>
           </li>
           <li className="inline-block text-slate-500 text-sm">/</li>
           <li className="text-gray-900 text-[13px] font-semibold">
@@ -172,7 +172,7 @@ const MainContent = ({
         </ol>
       </nav>
       <h1
-        className={`${archivo.className} text-3xl lg:text-4xl font-black text-gray-900`}
+        className={`${archivo.className} text-3xl lg:text-3xl font-black text-gray-900`}
       >
         {post.title}
       </h1>
@@ -184,7 +184,7 @@ const MainContent = ({
         ></div>
         <div className="flex justify-center items-start flex-col">
           <p className="text-gray-800 text-sm font-bold">
-            BY:{" "}
+            Par:{" "}
             <Link
               href="/about"
               className="hover:text-gray-900 transition-all duration-500"
@@ -196,13 +196,13 @@ const MainContent = ({
             dateTime={post.seo.opengraphPublishedTime}
             className="text-slate-500 capitalize text-sm"
           >
-            Updated: {formatDate(post.seo.opengraphPublishedTime)}
+            Mise à jour: {formatDate(post.seo.opengraphPublishedTime)}
           </time>
         </div>
       </div>
 
       <p className="text-gray-600 mb-3 text-sm capitalize">
-        Would you recommend this post?
+      Recommanderiez-vous cet article ?
       </p>
       <div className="flex gap-4 mb-4">
         <Link

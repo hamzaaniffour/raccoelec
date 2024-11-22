@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from 'react';
+import gsap from 'gsap';
 
 const Table = () => {
-  
   const [swapRows, setSwapRows] = useState(false);
 
   useEffect(() => {
@@ -12,10 +12,20 @@ const Table = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setSwapRows(true);
+    
+          // Adjust translate values based on screen width
+          const isMobile = window.innerWidth <= 768; // Example breakpoint for responsiveness
+          const topRowY = isMobile ? 100 : 88; // Smaller translate value for mobile
+          const bottomRowY = isMobile ? -102 : -80;
+    
+          // Animate with GSAP using responsive values
+          gsap.to('#topRow', { y: topRowY, duration: 1 });
+          gsap.to('#bottomRow', { y: bottomRowY, duration: 1 });
         }
       },
       { threshold: 0.5 }
     );
+    
 
     if (table) observer.observe(table);
 

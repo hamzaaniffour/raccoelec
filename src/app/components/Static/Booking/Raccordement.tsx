@@ -1,8 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import emailjs from "emailjs-com";
+import nodemailer from "nodemailer";
 import { PiUsersThreeLight } from "react-icons/pi";
-import { IoFolderOpenOutline, IoMailOutline, IoStopwatchOutline } from "react-icons/io5";
+import {
+  IoFolderOpenOutline,
+  IoMailOutline,
+  IoStopwatchOutline,
+} from "react-icons/io5";
 import { SlLocationPin } from "react-icons/sl";
 import { LuDoorOpen, LuFileCheck2 } from "react-icons/lu";
 import { MdOutlineHomeWork } from "react-icons/md";
@@ -13,8 +17,6 @@ import { LiaCompressArrowsAltSolid } from "react-icons/lia";
 import { GrUserPolice } from "react-icons/gr";
 import { IoMdPaper } from "react-icons/io";
 import { FaRegPenToSquare } from "react-icons/fa6";
-
-const numbers = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 36, "Plus de 36"];
 
 const Raccordement = () => {
   const [currentForm, setCurrentForm] = useState("first_form");
@@ -66,6 +68,9 @@ const Raccordement = () => {
     echeance: "",
     autorisation: "",
   });
+  const numbers = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 36, "Plus de 36"];
+    const [selectedNumber, setSelectedNumber] = useState<string | null>(null);
+    const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
@@ -116,28 +121,36 @@ const Raccordement = () => {
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    setSelectedNumber(value);
     setFormData({
-      ...formData,
-      [currentForm === "first_form"
-        ? "step1"
-        : currentForm === "second_form"
-        ? "step2"
-        : currentForm === "three_form"
-        ? "step3"
-        : "step4"]: {
-        ...formData[
-          currentForm === "first_form"
+        ...formData,
+        [currentForm === "first_form"
             ? "step1"
             : currentForm === "second_form"
             ? "step2"
             : currentForm === "three_form"
             ? "step3"
-            : "step4"
-        ],
-        [name]: value,
-      },
+            : "step4"]: {
+            ...formData[
+                currentForm === "first_form"
+                    ? "step1"
+                    : currentForm === "second_form"
+                    ? "step2"
+                    : currentForm === "three_form"
+                    ? "step3"
+                    : "step4"
+            ],
+            [name]: value,
+        },
     });
-  };
+};
+
+const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsCheckboxChecked(event.target.checked);
+    if (event.target.checked) {
+        setSelectedNumber(null); // Reset selected number when checkbox is checked
+    }
+};
 
   const validateForm = () => {
     let valid = true;
@@ -237,51 +250,36 @@ const Raccordement = () => {
     return valid;
   };
 
-  const sendEmail = () => {
+  const sendEmail = async () => {
     const formData = JSON.parse(localStorage.getItem("formData") || "{}");
-
+  
     if (!formData || Object.keys(formData).length === 0) {
       alert("No form data found. Please fill out the form before submitting.");
       return;
     }
-
-    const templateParams = {
-      from_name: `${formData.step1.first_name} ${formData.step1.last_name}`,
-      from_email: formData.step1.email,
-      phone: formData.step1.phone,
-      radio_option: formData.step1.radio,
-      beneficiary: formData.step1.beneficiary,
-      delivery_option: formData.step2.DeliveryOption,
-      code_postal: formData.step3.codePostal,
-      commune: formData.step3.Commune,
-      facultatif: formData.step3.facultatif || "",
-      voie: formData.step3.Voie || "",
-      cadastral: formData.step3.cadastral || "",
-      terrain: formData.step3.terrain || "",
-      number: formData.step3.number || "",
-      option1: formData.step3.Option1 ? "Yes" : "No",
-      portes_fenetres: formData.step4.portesFenetres || "",
-      echeance: formData.step4.echeance || "",
-      autorisation: formData.step4.autorisation || "",
-    };
-
-    emailjs
-      .send(
-        "service_6sps6uk", // Your EmailJS service ID
-        "template_nozgngn", // Your EmailJS template ID
-        templateParams,
-        "wCf8NPlGHcIFcquBX" // Your EmailJS user ID
-      )
-      .then((response) => {
-        console.log("Email sent successfully:", response);
-        alert("Form submitted successfully!");
-        localStorage.removeItem("formData"); // Optionally clear form data after submission
-      })
-      .catch((error) => {
-        console.error("Error sending email:", error);
-        alert("Failed to submit form. Please try again later.");
+  
+    try {
+      const response = await fetch('/api/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ formData }),
       });
+  
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message);
+        localStorage.removeItem("formData"); // Optionally clear form data after submission
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("Failed to submit form. Please try again later.");
+    }
   };
+  
 
   // const inputsRef = useRef<HTMLInputElement[]>([]);
 
@@ -307,9 +305,12 @@ const Raccordement = () => {
                 }`}
                 id="sp1"
               >
-                <IoMdPaper className={`size-5 inline-block lg:hidden ${
-                  activeSteps.includes("sp1") ? "active" : ""
-                }`} /> <span className="hidden lg:inline-block">Pour commencer</span>
+                <IoMdPaper
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp1") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Pour commencer</span>
               </div>
               <span>&gt;</span>
               <div
@@ -318,9 +319,12 @@ const Raccordement = () => {
                 }`}
                 id="sp2"
               >
-                <IoFolderOpenOutline className={`size-5 inline-block lg:hidden ${
-                  activeSteps.includes("sp2") ? "active" : ""
-                }`} /> <span className="hidden lg:inline-block">Mon Project</span>
+                <IoFolderOpenOutline
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp2") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Mon Project</span>
               </div>
               <span>&gt;</span>
               <div
@@ -329,9 +333,12 @@ const Raccordement = () => {
                 }`}
                 id="sp3"
               >
-                <FaRegPenToSquare className={`size-5 inline-block lg:hidden ${
-                  activeSteps.includes("sp2") ? "active" : ""
-                }`} /> <span className="hidden lg:inline-block">Mon planning</span>
+                <FaRegPenToSquare
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp2") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Mon planning</span>
               </div>
               <span>&gt;</span>
               <div
@@ -340,9 +347,12 @@ const Raccordement = () => {
                 }`}
                 id="sp4"
               >
-                <LuFileCheck2 className={`size-5 inline-block lg:hidden ${
-                  activeSteps.includes("sp1") ? "active" : ""
-                }`} /> <span className="hidden lg:inline-block">Récapitulatif</span>
+                <LuFileCheck2
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp1") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Récapitulatif</span>
               </div>
             </div>
           </div>
@@ -1086,60 +1096,53 @@ const Raccordement = () => {
               projet?
             </h2>
             <div className="flex items-center justify-start space-x-7 border-2 border-slate-200 rounded py-1 px-2 overflow-scroll lg:overflow-none">
-              {numbers.map((number, index) => (
-                <label
-                  key={index}
-                  className={`relative cursor-pointer ${
-                    number === "Plus de 36" ? "ml-5" : ""
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="number"
-                    value={number}
-                    className="hidden radio-input"
-                    onChange={handleRadioChange}
-                  />
-                  <span
-                    className={`inline-block h-8 ${
-                      number === "Plus de 36" ? "w-full px-2" : "w-8"
-                    } flex justify-center items-center rounded-full radio-label ${
-                      number === 9 ? "bg-blue-500 text-white" : ""
-                    }`}
-                  >
-                    {number}
-                    <span
-                      className={`arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500 ${
-                        number === 9 ? "" : "hidden"
-                      }`}
-                      style={{ bottom: "-8px" }}
-                    />
-                  </span>
-                </label>
-              ))}
+            {numbers.map((number, index) => (
+                    <label
+                        key={index}
+                        className={`relative cursor-pointer ${number === "Plus de 36" ? "ml-5" : ""}`}
+                    >
+                        <input
+                            type="radio"
+                            name="number"
+                            value={number}
+                            className="hidden radio-input"
+                            onChange={handleRadioChange}
+                            disabled={isCheckboxChecked}
+                        />
+                        <span
+                            className={`inline-block h-8 ${number === "Plus de 36" ? "w-full px-2" : "w-8"} flex justify-center items-center rounded-full radio-label ${selectedNumber === number ? "bg-blue-500 text-white" : ""}`}
+                        >
+                            {number}
+                            <span
+                                className={`arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500 ${selectedNumber === number ? "" : "hidden"}`}
+                                style={{ bottom: "-8px" }}
+                            />
+                        </span>
+                    </label>
+                ))}
             </div>
             <fieldset>
-              <div className="mt-4 space-y-2">
-                <label
-                  htmlFor="Option1"
-                  className="flex cursor-pointer items-start gap-2"
-                >
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      className="size-4 rounded border-gray-300"
-                      id="Option1"
-                      name="Option1"
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <strong className="font-medium text-gray-900">
-                      Je ne connais pas mon besoin
-                    </strong>
-                  </div>
-                </label>
-              </div>
+                <div className="mt-4 space-y-2">
+                    <label
+                        htmlFor="Option1"
+                        className="flex cursor-pointer items-start gap-2"
+                    >
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                className="size-4 rounded border-gray-300"
+                                id="Option1"
+                                name="Option1"
+                                onChange={handleCheckboxChange}
+                            />
+                        </div>
+                        <div>
+                            <strong className="font-medium text-gray-900">
+                                Je ne connais pas mon besoin
+                            </strong>
+                        </div>
+                    </label>
+                </div>
             </fieldset>
             <div className="flex justify-end items-center gap-3 mt-10">
               <button
@@ -1400,111 +1403,6 @@ const Raccordement = () => {
         )}
 
         {currentForm === "five_form" && (
-          // <div
-          //   id="five_form"
-          //   className="w-full p-[40px] rounded"
-          //   style={{ boxShadow: "0 10px 30px 0 rgba(62, 87, 111, 0.2)" }}
-          // >
-          //   <h2 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-10">
-          //     Summary of Your Information
-          //   </h2>
-          //   <div className="summary-section mb-10">
-          //     <h3 className="stepper-title text-[14px] leading-[20px] font-semibold text-left text-[#212529] mb-4">
-          //       Step 1: Besoin
-          //     </h3>
-          //     <p>
-          //       <strong>Radio Option:</strong> {formData.step1.radio}
-          //     </p>
-          //     <p>
-          //       <strong>Last Name:</strong> {formData.step1.last_name}
-          //     </p>
-          //     <p>
-          //       <strong>First Name:</strong> {formData.step1.first_name}
-          //     </p>
-          //     <p>
-          //       <strong>Email:</strong> {formData.step1.email}
-          //     </p>
-          //     <p>
-          //       <strong>Phone:</strong> {formData.step1.phone}
-          //     </p>
-          //   </div>
-          //   <div className="summary-section mb-10">
-          //     <h3 className="stepper-title text-[14px] leading-[20px] font-semibold text-left text-[#212529] mb-4">
-          //       Step 2: Type de Site
-          //     </h3>
-          //     <p>
-          //       <strong>Delivery Option:</strong>{" "}
-          //       {formData.step2.DeliveryOption}
-          //     </p>
-          //   </div>
-          //   <div className="summary-section mb-10">
-          //     <h3 className="stepper-title text-[14px] leading-[20px] font-semibold text-left text-[#212529] mb-4">
-          //       Step 3: Localisation
-          //     </h3>
-          //     <p>
-          //       <strong>Code Postal:</strong> {formData.step3.codePostal}
-          //     </p>
-          //     <p>
-          //       <strong>Commune:</strong> {formData.step3.Commune}
-          //     </p>
-          //     <p>
-          //       <strong>N° (facultatif):</strong> {formData.step3.facultatif}
-          //     </p>
-          //     <p>
-          //       <strong>Voie:</strong> {formData.step3.Voie}
-          //     </p>
-          //     <p>
-          //       <strong>
-          //         Complément d&lsquo;adresse / N° cadastral (facultatif):
-          //       </strong>{" "}
-          //       {formData.step3.cadastral}
-          //     </p>
-          //     <p>
-          //       <strong>Terrain:</strong> {formData.step3.terrain}
-          //     </p>
-          //     <p>
-          //       <strong>Number:</strong> {formData.step3.number}
-          //     </p>
-          //     <p>
-          //       <strong>Option 1:</strong>{" "}
-          //       {formData.step3.Option1 ? "Yes" : "No"}
-          //     </p>
-          //   </div>
-          //   <div className="summary-section mb-10">
-          //     <h3 className="stepper-title text-[14px] leading-[20px] font-semibold text-left text-[#212529] mb-4">
-          //       Step 4: Détails Supplémentaires
-          //     </h3>
-          //     <p>
-          //       <strong>Portes et Fenêtres:</strong>{" "}
-          //       {formData.step4.portesFenetres}
-          //     </p>
-          //     <p>
-          //       <strong>Échéance:</strong> {formData.step4.echeance}
-          //     </p>
-          //     <p>
-          //       <strong>Autorisation d&lsquo;urbanisme:</strong>{" "}
-          //       {formData.step4.autorisation}
-          //     </p>
-          //   </div>
-          // <div className="flex justify-end items-center gap-3 mt-10">
-          //   <button
-          //     id="prev4"
-          //     onClick={() => handleFormSwitch("four_form", "sp4", "sp5")}
-          //     type="button"
-          //     className="bg-white border-[1px] border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
-          //   >
-          //     Précédent
-          //   </button>
-          //   <button
-          //     id="submit"
-          //     type="button"
-          //     onClick={sendEmail}
-          //     className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
-          //   >
-          //     Soumettre
-          //   </button>
-          // </div>
-          // </div>
           <div
             id="five_form"
             className="w-full p-[40px] rounded"
