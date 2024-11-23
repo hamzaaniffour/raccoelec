@@ -125,7 +125,7 @@ const Raccordement = () => {
   };
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
     setSelectedNumber(value);
 
     // Update form data
@@ -162,7 +162,7 @@ const Raccordement = () => {
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
+    const { checked } = event.target;
     setIsCheckboxChecked(checked);
 
     // Update form data
