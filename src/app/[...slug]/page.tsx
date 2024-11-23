@@ -6,16 +6,15 @@ import Article from "@/app/components/Dynamic/Contents/Article";
 import Page from "@/app/components/Dynamic/Contents/Page";
 import Category from "@/app/components/Dynamic/Contents/Category";
 
+type Props = {
+  params: { slug: string[] };
+};
+
 // Define a type for Post
 interface Post {
   title: string;
   slug: string;
 }
-
-// Define the Props type to match the expected PageProps type
-type Props = {
-  params: { slug: string[] };
-};
 
 async function fetchContent(slug: string[]) {
   let content = await getContentBySlug(slug.join("/"));
