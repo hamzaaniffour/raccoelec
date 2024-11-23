@@ -326,18 +326,6 @@ const Raccordement = () => {
       });
   };
 
-  // const inputsRef = useRef<HTMLInputElement[]>([]);
-
-  // const handleInputChange = (index: number, value: string) => {
-  //   if (value.length === 1 && index < inputsRef.current.length - 1) {
-  //     // Move to the next input
-  //     inputsRef.current[index + 1]?.focus();
-  //   } else if (value.length === 0 && index > 0) {
-  //     // Move to the previous input on backspace
-  //     inputsRef.current[index - 1]?.focus();
-  //   }
-  // };
-
   return (
     <div className="flex justify-center items-center w-full mb-10 mt-10">
       <div className="max-w-[900px] w-full">

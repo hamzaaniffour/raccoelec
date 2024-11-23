@@ -56,14 +56,18 @@ const Raccordement = () => {
     portesFenetres: "",
   });
   const numbers = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 36, "Plus de 36"];
-  const [selectedNumber, setSelectedNumber] = useState<string | null>(null);
-    const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
-  // const [showTextarea, setShowTextarea] = useState(false);
+  const [selectedNumber, setSelectedNumber] = useState<string | number | null>(
+    null
+  );
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   useEffect(() => {
     const savedData = localStorage.getItem("formData");
     if (savedData) {
-      setFormData(JSON.parse(savedData));
+      const parsedData = JSON.parse(savedData);
+      setFormData(parsedData);
+      setIsCheckboxChecked(parsedData.step3.Option1);
+      setSelectedNumber(parsedData.step3.number);
     }
   }, []);
 
@@ -111,34 +115,41 @@ const Raccordement = () => {
     const { name, value } = event.target;
     setSelectedNumber(value);
     setFormData({
-        ...formData,
-        [currentForm === "first_form"
+      ...formData,
+      [currentForm === "first_form"
+        ? "step1"
+        : currentForm === "second_form"
+        ? "step2"
+        : currentForm === "three_form"
+        ? "step3"
+        : "step4"]: {
+        ...formData[
+          currentForm === "first_form"
             ? "step1"
             : currentForm === "second_form"
             ? "step2"
             : currentForm === "three_form"
             ? "step3"
-            : "step4"]: {
-            ...formData[
-                currentForm === "first_form"
-                    ? "step1"
-                    : currentForm === "second_form"
-                    ? "step2"
-                    : currentForm === "three_form"
-                    ? "step3"
-                    : "step4"
-            ],
-            [name]: value,
-        },
+            : "step4"
+        ],
+        [name]: value,
+      },
     });
-};
+  };
 
-const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsCheckboxChecked(event.target.checked);
-    if (event.target.checked) {
-        setSelectedNumber(null); // Reset selected number when checkbox is checked
-    }
-};
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
+    setIsCheckboxChecked(checked);
+    setFormData({
+      ...formData,
+      step3: {
+        ...formData.step3,
+        number: checked ? "Je ne connais pas mon besoin" : String(selectedNumber), // Set the number field to the checkbox value if checked
+        Option1: checked, // Update Option1 in form data
+      },
+    });
+    setSelectedNumber(null); // Reset selected number when checkbox is checked
+  };
 
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -223,7 +234,7 @@ const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         newErrors.Voie = "Please enter your voie";
         valid = false;
       }
-      if (!formData.step3.number) {
+      if (!isCheckboxChecked && !formData.step3.number) {
         newErrors.number = "Please select a number";
         valid = false;
       }
@@ -906,53 +917,76 @@ const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
               projet?
             </h2>
             <div className="flex items-center justify-start space-x-7 border-2 border-slate-200 rounded py-1 px-2 overflow-scroll lg:overflow-none">
-            {numbers.map((number, index) => (
-                    <label
-                        key={index}
-                        className={`relative cursor-pointer ${number === "Plus de 36" ? "ml-5" : ""}`}
-                    >
-                        <input
-                            type="radio"
-                            name="number"
-                            value={number}
-                            className="hidden radio-input"
-                            onChange={handleRadioChange}
-                            disabled={isCheckboxChecked}
-                        />
-                        <span
-                            className={`inline-block h-8 ${number === "Plus de 36" ? "w-full px-2" : "w-8"} flex justify-center items-center rounded-full radio-label ${selectedNumber === number ? "bg-blue-500 text-white" : ""}`}
-                        >
-                            {number}
-                            <span
-                                className={`arrow absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-t-blue-500 ${selectedNumber === number ? "" : "hidden"}`}
-                                style={{ bottom: "-8px" }}
-                            />
-                        </span>
-                    </label>
-                ))}
+              {numbers.map((number, index) => (
+                <label
+                  key={index}
+                  className={`relative ${
+                    isCheckboxChecked
+                      ? "cursor-not-allowed opacity-50"
+                      : "cursor-pointer"
+                  } ${number === "Plus de 36" ? "ml-5" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="number"
+                    value={String(number)}
+                    className="hidden"
+                    onChange={handleRadioChange}
+                    disabled={isCheckboxChecked}
+                    checked={selectedNumber === String(number)}
+                  />
+                  <span
+                    className={`inline-flex justify-center items-center h-8 
+                    ${number === "Plus de 36" ? "px-4" : "w-8"} 
+                    rounded-full transition-all duration-200 
+                    ${
+                      selectedNumber === String(number)
+                        ? "bg-blue-500 text-white"
+                        : "text-black"
+                    }
+                    ${isCheckboxChecked ? "pointer-events-none" : ""}
+                    ${
+                      !isCheckboxChecked && selectedNumber !== String(number)
+                        ? "hover:bg-gray-100"
+                        : ""
+                    }
+                `}
+                  >
+                    {number}
+                    {selectedNumber === String(number) && (
+                      <span
+                        className="absolute left-1/2 -bottom-2 -translate-x-1/2 
+                            w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] 
+                            border-t-blue-500 border-l-transparent border-r-transparent"
+                      />
+                    )}
+                  </span>
+                </label>
+              ))}
             </div>
             <fieldset>
-                <div className="mt-4 space-y-2">
-                    <label
-                        htmlFor="Option1"
-                        className="flex cursor-pointer items-start gap-2"
-                    >
-                        <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                className="size-4 rounded border-gray-300"
-                                id="Option1"
-                                name="Option1"
-                                onChange={handleCheckboxChange}
-                            />
-                        </div>
-                        <div>
-                            <strong className="font-medium text-gray-900">
-                                Je ne connais pas mon besoin
-                            </strong>
-                        </div>
-                    </label>
-                </div>
+              <div className="mt-4 space-y-2">
+                <label
+                  htmlFor="Option1"
+                  className="flex cursor-pointer items-start gap-2"
+                >
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      className="size-4 rounded border-gray-300"
+                      id="Option1"
+                      name="Option1"
+                      onChange={handleCheckboxChange}
+                      checked={isCheckboxChecked}
+                    />
+                  </div>
+                  <div>
+                    <strong className="font-medium text-gray-900">
+                      Je ne connais pas mon besoin
+                    </strong>
+                  </div>
+                </label>
+              </div>
             </fieldset>
             <div className="flex justify-end items-center gap-3 mt-10">
               <button
