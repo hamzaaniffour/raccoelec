@@ -6,8 +6,15 @@ import Article from "@/app/components/Dynamic/Contents/Article";
 import Page from "@/app/components/Dynamic/Contents/Page";
 import Category from "@/app/components/Dynamic/Contents/Category";
 
+// Define page params type
+type PageParams = {
+  slug: string[];
+};
+
+// Define page props type
 type Props = {
-  params: { slug: string[] };
+  params: PageParams;
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
 // Define a type for Post
@@ -217,7 +224,7 @@ export default async function DynamicPage({ params }: Props) {
   );
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<PageParams[]> {
   const slugs = await getAllSlugs();
   return slugs.map((slug) => ({ slug: slug.split("/") }));
 }
