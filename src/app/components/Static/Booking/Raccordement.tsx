@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { PiUsersThreeLight } from "react-icons/pi";
+import emailjs from "emailjs-com";
 import {
   IoFolderOpenOutline,
   IoMailOutline,
@@ -279,7 +280,7 @@ const Raccordement = () => {
     return valid;
   };
 
-  const sendEmail = async () => {
+  const sendEmail = () => {
     const formData = JSON.parse(localStorage.getItem("formData") || "{}");
 
     if (!formData || Object.keys(formData).length === 0) {
@@ -287,26 +288,42 @@ const Raccordement = () => {
       return;
     }
 
-    try {
-      const response = await fetch("/api/emails", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ formData }),
-      });
+    const templateParams = {
+      from_name: `${formData.step1.first_name} ${formData.step1.last_name}`,
+      from_email: formData.step1.email,
+      phone: formData.step1.phone,
+      radio_option: formData.step1.radio,
+      beneficiary: formData.step1.beneficiary,
+      delivery_option: formData.step2.DeliveryOption,
+      code_postal: formData.step3.codePostal,
+      commune: formData.step3.Commune,
+      facultatif: formData.step3.facultatif || "",
+      voie: formData.step3.Voie || "",
+      cadastral: formData.step3.cadastral || "",
+      number: formData.step3.number || "",
+      option1: formData.step3.Option1 ? "Yes" : "No",
+      portes_fenetres: formData.step4.portesFenetres || "",
+      echeance: formData.step4.echeance || "",
+      autorisation: formData.step4.autorisation || "",
+      additional_info: formData.step4.additionalInfo || "", // Include additional info
+    };
 
-      const result = await response.json();
-      if (response.ok) {
-        alert(result.message);
+    emailjs
+      .send(
+        "service_6sps6uk", // Your EmailJS service ID
+        "template_nozgngn", // Your EmailJS template ID
+        templateParams,
+        "wCf8NPlGHcIFcquBX" // Your EmailJS user ID
+      )
+      .then((response) => {
+        console.log("Email sent successfully:", response);
+        alert("Form submitted successfully!");
         localStorage.removeItem("formData"); // Optionally clear form data after submission
-      } else {
-        alert(result.message);
-      }
-    } catch (error) {
-      console.error("Error sending email:", error);
-      alert("Failed to submit form. Please try again later.");
-    }
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+        alert("Failed to submit form. Please try again later.");
+      });
   };
 
   // const inputsRef = useRef<HTMLInputElement[]>([]);
