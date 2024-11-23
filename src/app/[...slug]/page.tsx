@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getContentBySlug, getAllSlugs } from "@/apis/graphql/content";
 import { Metadata } from "next";
 import Article from "@/app/components/Dynamic/Contents/Article";
-import Page from "@/app/components/Dynamic/Contents/Page";
+// import Page from "@/app/components/Dynamic/Contents/Page";
 import Category from "@/app/components/Dynamic/Contents/Category";
 
 // Define page params type
@@ -11,13 +11,7 @@ type PageParams = {
   slug: string[];
 };
 
-// Define page props type
-type Props = {
-  params: PageParams;
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-// Define a type for Post
+// Define the content interface
 interface Post {
   title: string;
   slug: string;
@@ -39,7 +33,11 @@ async function fetchContent(slug: string[]) {
   return content;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: PageParams;
+}): Promise<Metadata> {
   const content = await fetchContent(params.slug);
   if (!content) {
     return {
@@ -143,7 +141,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function DynamicPage({ params }: Props) {
+export default async function Page({
+  params,
+}: {
+  params: PageParams;
+}): Promise<JSX.Element> {
   const content = await fetchContent(params.slug);
   if (!content) notFound();
 
@@ -213,8 +215,6 @@ export default async function DynamicPage({ params }: Props) {
       />
       {content.type === "category" ? (
         <Category category={content} />
-      ) : content.type === "page" ? (
-        <Page page={content} />
       ) : content.type === "post" ? (
         <Article post={content} />
       ) : (
