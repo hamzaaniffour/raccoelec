@@ -1,50 +1,42 @@
-import nodemailer from "nodemailer";
+import { NextApiRequest, NextApiResponse } from 'next';
+import nodemailer from 'nodemailer';
 
-export async function POST(request: Request) {
-  const data = await request.json();
-
-  // Extract template parameters from request
-  const templateParams = data.templateParams;
-
-  if (!templateParams?.from_email) {
-    return new Response("Invalid email data provided.", { status: 400 });
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ message: 'Method ${req.method} Not Allowed' });
   }
 
-  // Nodemailer transport configuration
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.NODEMAILER_EMAIL,
-      pass: process.env.NODEMAILER_PW,
-    },
-  });
+  const { to, subject, message } = req.body;
 
-  // Generate the email content
-  const htmlContent = `
-    <h1>Form Submission</h1>
-    <p><strong>Name:</strong> ${templateParams.from_name}</p>
-    <p><strong>Email:</strong> ${templateParams.from_email}</p>
-    <p><strong>Phone:</strong> ${templateParams.phone}</p>
-    <p><strong>Beneficiary:</strong> ${templateParams.beneficiary}</p>
-    <p><strong>Delivery Option:</strong> ${templateParams.delivery_option}</p>
-    <p><strong>Project Location:</strong> ${templateParams.code_postal}, ${templateParams.commune}</p>
-    <p><strong>Additional Details:</strong></p>
-    <pre>${JSON.stringify(templateParams, null, 2)}</pre>
-  `;
+  if (!to || !subject || !message) {
+    return res.status(400).json({ message: 'Missing required fields: to, subject, or message' });
+  }
 
   try {
-    const emailResult = await transporter.sendMail({
-      from: `"${templateParams.from_name}" <${templateParams.from_email}>`, // Sender info
-      to: process.env.RECIPIENT_EMAIL || "recipient@example.com", // Change this to your recipient's email
-      subject: "New Form Submission",
-      html: htmlContent,
+    // Create a transporter object using SMTP
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST, // e.g., 'smtp.gmail.com'
+      port: Number(process.env.SMTP_PORT) || 587, // 587 for TLS, 465 for SSL
+      secure: false, // true for SSL, false for TLS
+      auth: {
+        user: process.env.SMTP_USER, // SMTP username
+        pass: process.env.SMTP_PASSWORD, // SMTP password
+      },
     });
 
-    return new Response(JSON.stringify({ success: true, result: emailResult }), { status: 200 });
+    // Send the email
+    const info = await transporter.sendMail({
+      from: process.env.SMTP_USER, // Sender address
+      to, // List of recipients
+      subject, // Subject line
+      text: message, // Plain text body
+    });
+
+    console.log('Message sent: %s', info.messageId);
+    res.status(200).json({ message: 'Email sent successfully!' });
   } catch (error) {
-    console.error("Failed to send email:", error);
-    return new Response("Failed to send email.", { status: 500 });
+    console.error('Error sending email:', error);
+    res.status(500).json({ message: 'Failed to send email.' });
   }
 }
