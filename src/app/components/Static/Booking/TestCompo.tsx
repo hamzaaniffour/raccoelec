@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { PiUsersThreeLight } from "react-icons/pi";
+import emailjs from "emailjs-com";
 import {
   IoFolderOpenOutline,
   IoMailOutline,
@@ -125,29 +126,51 @@ const Raccordement = () => {
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setSelectedNumber(value);
+  
+    // Determine which step the radio button belongs to
+    const step = name === "radio" || name === "beneficiary" ? "step1" : "step3";
+  
+    // Update form data
     setFormData({
       ...formData,
-      [currentForm === "first_form"
-        ? "step1"
-        : currentForm === "second_form"
-        ? "step2"
-        : currentForm === "three_form"
-        ? "step3"
-        : "step4"]: {
-        ...formData[
-          currentForm === "first_form"
-            ? "step1"
-            : currentForm === "second_form"
-            ? "step2"
-            : currentForm === "three_form"
-            ? "step3"
-            : "step4"
-        ],
+      [step]: {
+        ...formData[step],
         [name]: value,
+        ...(step === "step3" && {
+          number: value,
+          Option1: false, // Reset checkbox when a radio button is selected
+        }),
       },
     });
+  
+    // Save to local storage
+    localStorage.setItem(
+      "formData",
+      JSON.stringify({
+        ...formData,
+        [step]: {
+          ...formData[step],
+          [name]: value,
+          ...(step === "step3" && {
+            number: value,
+            Option1: false, // Reset checkbox when a radio button is selected
+          }),
+        },
+      })
+    );
+  
+    // Reset checkbox state if it's step3
+    if (step === "step3") {
+      setIsCheckboxChecked(false);
+    }
+  
+    // Clear any existing errors for the number field
+    setErrors((prev) => ({
+      ...prev,
+      number: "",
+    }));
   };
+  
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
@@ -158,9 +181,7 @@ const Raccordement = () => {
       ...formData,
       step3: {
         ...formData.step3,
-        number: checked
-          ? "Je ne connais pas mon besoin"
-          : String(selectedNumber), // Set the number field to the checkbox value if checked
+        number: checked ? "" : String(selectedNumber), // Clear the number selection if checkbox is checked
         Option1: checked, // Update Option1 in form data
       },
     });
@@ -172,9 +193,7 @@ const Raccordement = () => {
         ...formData,
         step3: {
           ...formData.step3,
-          number: checked
-            ? "Je ne connais pas mon besoin"
-            : String(selectedNumber), // Set the number field to the checkbox value if checked
+          number: checked ? "" : String(selectedNumber), // Clear the number selection if checkbox is checked
           Option1: checked, // Update Option1 in form data
         },
       })
@@ -200,7 +219,7 @@ const Raccordement = () => {
       echeance: "",
       autorisation: "",
     };
-
+  
     if (currentForm === "first_form") {
       if (!formData.step1.radio) {
         newErrors.radio = "Please select an option";
@@ -256,7 +275,9 @@ const Raccordement = () => {
         newErrors.terrain = "Please select an option";
         valid = false;
       }
-      if (!isCheckboxChecked && !formData.step3.number) {
+  
+      // Only validate number if checkbox is not checked
+      if (!formData.step3.Option1 && !formData.step3.number) {
         newErrors.number = "Please select a number";
         valid = false;
       }
@@ -274,12 +295,13 @@ const Raccordement = () => {
         valid = false;
       }
     }
-
+  
     setErrors(newErrors);
     return valid;
   };
+  
 
-  const sendEmail = async () => {
+  const sendEmail = () => {
     const formData = JSON.parse(localStorage.getItem("formData") || "{}");
 
     if (!formData || Object.keys(formData).length === 0) {
@@ -287,39 +309,43 @@ const Raccordement = () => {
       return;
     }
 
-    try {
-      const response = await fetch("/api/emails", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ formData }),
-      });
+    const templateParams = {
+      from_name: `${formData.step1.first_name} ${formData.step1.last_name}`,
+      from_email: formData.step1.email,
+      phone: formData.step1.phone,
+      radio_option: formData.step1.radio,
+      beneficiary: formData.step1.beneficiary,
+      delivery_option: formData.step2.DeliveryOption,
+      code_postal: formData.step3.codePostal,
+      commune: formData.step3.Commune,
+      facultatif: formData.step3.facultatif || "",
+      voie: formData.step3.Voie || "",
+      cadastral: formData.step3.cadastral || "",
+      number: formData.step3.number || "",
+      option1: formData.step3.Option1 ? "Yes" : "No",
+      portes_fenetres: formData.step4.portesFenetres || "",
+      echeance: formData.step4.echeance || "",
+      autorisation: formData.step4.autorisation || "",
+      additional_info: formData.step4.additionalInfo || "", // Include additional info
+    };
 
-      const result = await response.json();
-      if (response.ok) {
-        alert(result.message);
+    emailjs
+      .send(
+        "service_6sps6uk", // Your EmailJS service ID
+        "template_nozgngn", // Your EmailJS template ID
+        templateParams,
+        "wCf8NPlGHcIFcquBX" // Your EmailJS user ID
+      )
+      .then((response) => {
+        console.log("Email sent successfully:", response);
+        alert("Form submitted successfully!");
         localStorage.removeItem("formData"); // Optionally clear form data after submission
-      } else {
-        alert(result.message);
-      }
-    } catch (error) {
-      console.error("Error sending email:", error);
-      alert("Failed to submit form. Please try again later.");
-    }
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+        alert("Failed to submit form. Please try again later.");
+      });
   };
-
-  // const inputsRef = useRef<HTMLInputElement[]>([]);
-
-  // const handleInputChange = (index: number, value: string) => {
-  //   if (value.length === 1 && index < inputsRef.current.length - 1) {
-  //     // Move to the next input
-  //     inputsRef.current[index + 1]?.focus();
-  //   } else if (value.length === 0 && index > 0) {
-  //     // Move to the previous input on backspace
-  //     inputsRef.current[index - 1]?.focus();
-  //   }
-  // };
 
   return (
     <div className="flex justify-center items-center w-full mb-10 mt-10">
@@ -387,260 +413,261 @@ const Raccordement = () => {
         </div>
 
         {currentForm === "first_form" && (
-          <div
-            id="first_form"
-            className="w-full p-[40px] rounded"
-            style={{ boxShadow: "0 10px 30px 0 rgba(62, 87, 111, 0.2)" }}
+  <div
+    id="first_form"
+    className="w-full p-[40px] rounded"
+    style={{ boxShadow: "0 10px 30px 0 rgba(62, 87, 111, 0.2)" }}
+  >
+    <h2 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-6">
+      Quel est votre besoin ?
+    </h2>
+    <form>
+      <ul className="flex justify-start items-start flex-col md:flex-row w-full gap-2 text-center md:grid-cols-3 mb-[80px]">
+        <li>
+          <input
+            type="radio"
+            id="radio1"
+            name="radio"
+            value="Viabilisation de terrain"
+            className="hidden peer"
+            onChange={handleRadioChange}
+            required
+          />
+          <label
+            htmlFor="radio1"
+            className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
           >
-            <h2 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-6">
-              Quel est votre besoin ?
-            </h2>
-            <form>
-              <ul className="flex justify-start items-start flex-col md:flex-row w-full gap-2 text-center md:grid-cols-3 mb-[80px]">
-                <li>
-                  <input
-                    type="radio"
-                    id="radio1"
-                    name="radio"
-                    value="Viabilisation de terrain"
-                    className="hidden peer"
-                    onChange={handleRadioChange}
-                    required
-                  />
-                  <label
-                    htmlFor="radio1"
-                    className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
-                  >
-                    <div className="block text-center">
-                      <div className="w-full text-center">
-                        Viabilisation de terrain
-                      </div>
-                    </div>
-                  </label>
-                  {errors.radio && (
-                    <p className="text-red-500">{errors.radio}</p>
-                  )}
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    id="radio2"
-                    name="radio"
-                    value="Raccordement provisoire"
-                    className="hidden peer"
-                    onChange={handleRadioChange}
-                  />
-                  <label
-                    htmlFor="radio2"
-                    className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
-                  >
-                    <div className="block">
-                      <div className="w-full">Raccordement provisoire</div>
-                    </div>
-                  </label>
-                  {errors.radio && (
-                    <p className="text-red-500">{errors.radio}</p>
-                  )}
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    id="radio3"
-                    name="radio"
-                    value="Raccordement définitif"
-                    className="hidden peer"
-                    onChange={handleRadioChange}
-                  />
-                  <label
-                    htmlFor="radio3"
-                    className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
-                  >
-                    <div className="block">
-                      <div className="w-full">Raccordement définitif</div>
-                    </div>
-                  </label>
-                  {errors.radio && (
-                    <p className="text-red-500">{errors.radio}</p>
-                  )}
-                </li>
-              </ul>
-            </form>
-            <h3 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-6">
-              Le bénéficiaire est...
-            </h3>
-            <form>
-              <ul className="flex justify-start items-start flex-col md:flex-row w-full gap-2 text-center md:grid-cols-3 mb-[80px]">
-                <li>
-                  <input
-                    type="radio"
-                    id="radio4"
-                    name="beneficiary"
-                    value="Un particulier"
-                    className="hidden peer"
-                    onChange={handleRadioChange}
-                    required
-                  />
-                  <label
-                    htmlFor="radio4"
-                    className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
-                  >
-                    <div className="block text-center">
-                      <div className="w-full text-center flex justify-center items-center">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="size-6 inline-block mr-[6px]"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
-                          />
-                        </svg>
-                        Un particulier
-                      </div>
-                    </div>
-                  </label>
-                  {errors.beneficiary && (
-                    <p className="text-red-500">{errors.beneficiary}</p>
-                  )}
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    id="radio5"
-                    name="beneficiary"
-                    value="Une Entreprise"
-                    className="hidden peer"
-                    onChange={handleRadioChange}
-                  />
-                  <label
-                    htmlFor="radio5"
-                    className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
-                  >
-                    <div className="w-full text-center flex justify-start items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="size-6 inline-block mr-[6px]"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
-                        />
-                      </svg>
-                      Une Entreprise
-                    </div>
-                  </label>
-                  {errors.beneficiary && (
-                    <p className="text-red-500">{errors.beneficiary}</p>
-                  )}
-                </li>
-              </ul>
-            </form>
-            <div className="w-full mt-5 border-t-[1px] border-slate-200 pt-10">
-              <form>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                  <div>
-                    <label
-                      htmlFor="first_name"
-                      className="stepper-title text-black text-md"
-                    >
-                      Nom:
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Nom"
-                      id="first_name"
-                      name="last_name"
-                      className="w-full mt-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600"
-                      onChange={handleChange}
-                    />
-                    {errors.last_name && (
-                      <p className="text-red-500">{errors.last_name}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="last_name"
-                      className="stepper-title text-black text-md"
-                    >
-                      Prénom:
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Prénom"
-                      id="last_name"
-                      name="first_name"
-                      className="w-full mt-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600"
-                      onChange={handleChange}
-                    />
-                    {errors.first_name && (
-                      <p className="text-red-500">{errors.first_name}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="stepper-title text-black text-md"
-                    >
-                      Email:
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Email"
-                      id="email"
-                      name="email"
-                      className="w-full mt-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600"
-                      onChange={handleChange}
-                    />
-                    {errors.email && (
-                      <p className="text-red-500">{errors.email}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="stepper-title text-black text-md"
-                    >
-                      Téléphone:
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Téléphone"
-                      id="phone"
-                      name="phone"
-                      className="w-full mt-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600"
-                      onChange={handleChange}
-                    />
-                    {errors.phone && (
-                      <p className="text-red-500">{errors.phone}</p>
-                    )}
-                  </div>
-                </div>
-                <div className="flex justify-center items-center w-full mt-12">
-                  <button
-                    id="submit_first_button"
-                    onClick={() =>
-                      handleFormSwitch("second_form", "sp2", "sp1")
-                    }
-                    type="button"
-                    className="stepper-title rounded-full py-3 px-20 text-white bg-[#16a974]"
-                  >
-                    Continuer
-                  </button>
-                </div>
-              </form>
+            <div className="block text-center">
+              <div className="w-full text-center">
+                Viabilisation de terrain
+              </div>
             </div>
+          </label>
+          {errors.radio && (
+            <p className="text-red-500">{errors.radio}</p>
+          )}
+        </li>
+        <li>
+          <input
+            type="radio"
+            id="radio2"
+            name="radio"
+            value="Raccordement provisoire"
+            className="hidden peer"
+            onChange={handleRadioChange}
+          />
+          <label
+            htmlFor="radio2"
+            className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
+          >
+            <div className="block">
+              <div className="w-full">Raccordement provisoire</div>
+            </div>
+          </label>
+          {errors.radio && (
+            <p className="text-red-500">{errors.radio}</p>
+          )}
+        </li>
+        <li>
+          <input
+            type="radio"
+            id="radio3"
+            name="radio"
+            value="Raccordement définitif"
+            className="hidden peer"
+            onChange={handleRadioChange}
+          />
+          <label
+            htmlFor="radio3"
+            className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
+          >
+            <div className="block">
+              <div className="w-full">Raccordement définitif</div>
+            </div>
+          </label>
+          {errors.radio && (
+            <p className="text-red-500">{errors.radio}</p>
+          )}
+        </li>
+      </ul>
+    </form>
+    <h3 className="stepper-title text-[16px] leading-[24px] font-light text-left text-[#212529] mb-6">
+      Le bénéficiaire est...
+    </h3>
+    <form>
+      <ul className="flex justify-start items-start flex-col md:flex-row w-full gap-2 text-center md:grid-cols-3 mb-[80px]">
+        <li>
+          <input
+            type="radio"
+            id="radio4"
+            name="beneficiary"
+            value="Un particulier"
+            className="hidden peer"
+            onChange={handleRadioChange}
+            required
+          />
+          <label
+            htmlFor="radio4"
+            className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
+          >
+            <div className="block text-center">
+              <div className="w-full text-center flex justify-center items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="size-6 inline-block mr-[6px]"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                  />
+                </svg>
+                Un particulier
+              </div>
+            </div>
+          </label>
+          {errors.beneficiary && (
+            <p className="text-red-500">{errors.beneficiary}</p>
+          )}
+        </li>
+        <li>
+          <input
+            type="radio"
+            id="radio5"
+            name="beneficiary"
+            value="Une Entreprise"
+            className="hidden peer"
+            onChange={handleRadioChange}
+          />
+          <label
+            htmlFor="radio5"
+            className="viab transition-all duration-300 hover:border-[#1623dc] hover:text-[#1623dc] inline-flex items-center justify-between w-auto p-3 text-gray-500 rounded bg-white border-[1px] border-gray-400 cursor-pointer peer-checked:text-black peer-checked:border-[#005EB8] peer-checked:bg-[#bfd7ed]"
+          >
+            <div className="w-full text-center flex justify-start items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6 inline-block mr-[6px]"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                />
+              </svg>
+              Une Entreprise
+            </div>
+          </label>
+          {errors.beneficiary && (
+            <p className="text-red-500">{errors.beneficiary}</p>
+          )}
+        </li>
+      </ul>
+    </form>
+    <div className="w-full mt-5 border-t-[1px] border-slate-200 pt-10">
+      <form>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          <div>
+            <label
+              htmlFor="first_name"
+              className="stepper-title text-black text-md"
+            >
+              Nom:
+            </label>
+            <input
+              type="text"
+              placeholder="Nom"
+              id="first_name"
+              name="last_name"
+              className="w-full mt-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600"
+              onChange={handleChange}
+            />
+            {errors.last_name && (
+              <p className="text-red-500">{errors.last_name}</p>
+            )}
           </div>
-        )}
+          <div>
+            <label
+              htmlFor="last_name"
+              className="stepper-title text-black text-md"
+            >
+              Prénom:
+            </label>
+            <input
+              type="text"
+              placeholder="Prénom"
+              id="last_name"
+              name="first_name"
+              className="w-full mt-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600"
+              onChange={handleChange}
+            />
+            {errors.first_name && (
+              <p className="text-red-500">{errors.first_name}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="stepper-title text-black text-md"
+            >
+              Email:
+            </label>
+            <input
+              type="text"
+              placeholder="Email"
+              id="email"
+              name="email"
+              className="w-full mt-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600"
+              onChange={handleChange}
+            />
+            {errors.email && (
+              <p className="text-red-500">{errors.email}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="phone"
+              className="stepper-title text-black text-md"
+            >
+              Téléphone:
+            </label>
+            <input
+              type="text"
+              placeholder="Téléphone"
+              id="phone"
+              name="phone"
+              className="w-full mt-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-600"
+              onChange={handleChange}
+            />
+            {errors.phone && (
+              <p className="text-red-500">{errors.phone}</p>
+            )}
+          </div>
+        </div>
+        <div className="flex justify-center items-center w-full mt-12">
+          <button
+            id="submit_first_button"
+            onClick={() =>
+              handleFormSwitch("second_form", "sp2", "sp1")
+            }
+            type="button"
+            className="stepper-title rounded-full py-3 px-20 text-white bg-[#16a974]"
+          >
+            Continuer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
 
         {currentForm === "second_form" && (
           <div
@@ -1516,11 +1543,9 @@ const Raccordement = () => {
                 <li className="flex justify-start items-center gap-3 mb-3">
                   <LiaCompressArrowsAltSolid className="size-9 inline-block text-slate-500" />
                   Puissance maximale (en kVA)?:{" "}
-                  <span className="capitalize">
-                    {formData.step3.Option1
-                      ? "Je ne connais pas mon besoin"
-                      : formData.step3.number}
-                  </span>
+                  {formData.step3.Option1
+                    ? "Je ne connais pas mon besoin"
+                    : formData.step3.number}
                 </li>
                 <li className="flex justify-start items-center gap-3 mb-3">
                   <LuDoorOpen className="size-7 inline-block text-slate-500" />
