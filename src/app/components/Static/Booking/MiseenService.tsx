@@ -81,13 +81,10 @@ const Raccordement = () => {
     deactivateStep: string
   ) => {
     if (validateForm()) {
-      // Update the current form
       setCurrentForm(targetForm);
-
-      // Update activeSteps to ensure only the current step is active
-      setActiveSteps([activateStep]); // Only keep the current step active
-
-      // Save form data to local storage
+      setActiveSteps((prev) =>
+        prev.filter((step) => step !== deactivateStep).concat(activateStep)
+      );
       localStorage.setItem("formData", JSON.stringify(formData));
     }
   };
@@ -299,14 +296,6 @@ const Raccordement = () => {
         console.error("Error sending email:", error);
         alert("Failed to submit form. Please try again later.");
       });
-  };
-
-  const handleContinue = () => {
-    // Ensure that formData is valid before saving to localStorage
-    if (validateForm()) {
-      localStorage.setItem("formData", JSON.stringify(formData)); // Save to localStorage before switching
-      handleFormSwitch("five_form", "sp5", "sp4");
-    }
   };
 
   return (

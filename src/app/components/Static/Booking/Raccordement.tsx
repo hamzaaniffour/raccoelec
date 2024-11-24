@@ -92,13 +92,10 @@ const Raccordement = () => {
     deactivateStep: string
   ) => {
     if (validateForm()) {
-      // Update the current form
       setCurrentForm(targetForm);
-
-      // Update activeSteps to ensure only the current step is active
-      setActiveSteps([activateStep]); // Only keep the current step active
-
-      // Save form data to local storage
+      setActiveSteps((prev) =>
+        prev.filter((step) => step !== deactivateStep).concat(activateStep)
+      );
       localStorage.setItem("formData", JSON.stringify(formData));
     }
   };

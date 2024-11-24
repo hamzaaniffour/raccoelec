@@ -256,7 +256,7 @@ const Branchement = () => {
         templateParams,
         "wCf8NPlGHcIFcquBX" // Your EmailJS user ID
       )
-      .then((response) => {
+      .then(() => {
         router.push("/")
         localStorage.removeItem("formData"); // Optionally clear form data after submission
       })

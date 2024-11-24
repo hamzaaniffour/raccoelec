@@ -1,13 +1,13 @@
 "use client";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
-interface FormData {
-  first_name: string;
-  last_name: string;
-  address_email: string;
-  subject: string;
-  message: string;
-}
+// interface FormData {
+//   first_name: string;
+//   last_name: string;
+//   address_email: string;
+//   subject: string;
+//   message: string;
+// }
 
 // interface StatusState {
 //   type: "success" | "error" | null;
@@ -15,68 +15,68 @@ interface FormData {
 // }
 
 const Contactus = () => {
-  const [formData, setFormData] = useState<FormData>({
-    first_name: "",
-    last_name: "",
-    address_email: "",
-    subject: "",
-    message: "",
-  });
-
-  // const [loading, setLoading] = useState(false);
-  // const [status, setStatus] = useState<StatusState>({
-  //   type: null,
+  // const [formData, setFormData] = useState<FormData>({
+  //   first_name: "",
+  //   last_name: "",
+  //   address_email: "",
+  //   subject: "",
   //   message: "",
   // });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  // // const [loading, setLoading] = useState(false);
+  // // const [status, setStatus] = useState<StatusState>({
+  // //   type: null,
+  // //   message: "",
+  // // });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // setLoading(true);
-    // setStatus({ type: null, message: "" });
+  // const handleChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [e.target.name]: e.target.value,
+  //   }));
+  // };
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   // setLoading(true);
+  //   // setStatus({ type: null, message: "" });
+
+  //   try {
+  //     const response = await fetch("/api/contact", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
       
 
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("Failed to send message");
+  //     }
 
-      // setStatus({
-      //   type: "success",
-      //   message: "Message sent successfully!",
-      // });
-      setFormData({
-        first_name: "",
-        last_name: "",
-        address_email: "",
-        subject: "",
-        message: "",
-      });
-    } catch (error) {
-      // setStatus({
-      //   type: "error",
-      //   message: "Failed to send message. Please try again.",
-      // });
-    } finally {
-      // setLoading(false);
-    }
-  };
+  //     // setStatus({
+  //     //   type: "success",
+  //     //   message: "Message sent successfully!",
+  //     // });
+  //     setFormData({
+  //       first_name: "",
+  //       last_name: "",
+  //       address_email: "",
+  //       subject: "",
+  //       message: "",
+  //     });
+  //   } catch (error) {
+  //     // setStatus({
+  //     //   type: "error",
+  //     //   message: "Failed to send message. Please try again.",
+  //     // });
+  //   } finally {
+  //     // setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="mt-36 mb-36">
@@ -170,7 +170,7 @@ const Contactus = () => {
                   <p role="status" aria-live="polite" aria-atomic="true" />{" "}
                   <ul />
                 </div>
-                <form onSubmit={handleSubmit} className="mt-8">
+                <form className="mt-8">
                   <div className="grid grid-cols-2 gap-6 mb-6">
                     <div>
                       <label
@@ -187,7 +187,7 @@ const Contactus = () => {
                         name="first_name"
                         placeholder="Prénom"
                         className="w-full mt-1 border border-slate-200 bg-white font-semibold text-amber-950 rounded-md py-4 px-4 outline-none"
-                        onChange={handleChange}
+                        // onChange={handleChange}
                       />
                     </div>
                     <div>
@@ -205,7 +205,7 @@ const Contactus = () => {
                         name="last_name"
                         placeholder="Nom de famille"
                         className="w-full mt-1 border border-slate-200 bg-white font-semibold text-amber-950 rounded-md py-4 px-4 outline-none"
-                        onChange={handleChange}
+                        // onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -225,7 +225,7 @@ const Contactus = () => {
                         name="address_email"
                         placeholder="Adresse Email"
                         className="w-full mt-1 border border-slate-200 bg-white font-semibold text-gray-900 rounded-md py-4 px-4 outline-none"
-                        onChange={handleChange}
+                        // onChange={handleChange}
                       />
                     </div>
                     <div>
@@ -243,7 +243,7 @@ const Contactus = () => {
                         name="subject"
                         placeholder="Subject"
                         className="w-full mt-1 border border-slate-200 bg-white font-semibold text-gray-900 rounded-md py-4 px-4 outline-none"
-                        onChange={handleChange}
+                        // onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -259,7 +259,7 @@ const Contactus = () => {
                       name="message"
                       placeholder="Écrire n'importe quoi..."
                       className="w-full mt-1 border border-slate-200 bg-white h-48 max-h-48 max-w-full font-semibold text-gray-900 rounded-md py-4 px-4 outline-none"
-                      onChange={handleChange}
+                      // onChange={handleChange}
                     ></textarea>
                   </div>
                   <button
