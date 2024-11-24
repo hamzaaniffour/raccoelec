@@ -45,11 +45,11 @@ const Blog = async () => {
                   <p className="text-xs text-gray-500">{post.date}</p>
                 </div>
                 <div>
-                  <h3 className="text-md font-semibold text-zinc-950">
+                  <h3 className="text-[15px] font-semibold text-zinc-950">
                     {post.title}
                   </h3>
                   <p
-                    className="mt-1.5 text-gray-500 dark:text-neutral-500 text-sm"
+                    className="mt-1.5 text-gray-500 dark:text-neutral-500 text-xs"
                     dangerouslySetInnerHTML={{
                       __html: truncateContent(post.seo.metaDesc, 100),
                     }}

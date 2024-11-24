@@ -6,11 +6,11 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: {
     default: "Blog",
-    template: "%s | TiresPedia",
+    template: "%s | Raccoelec",
   },
   description: "Get expert tire maintenance tips and wheel guides from our automotive blog. Learn about pressure, sizing, and safety to maximize your vehicle's performance.",
   openGraph: {
-    title: "Blog | TiresPedia",
+    title: "Blog | Raccoelec",
     description: "Get expert tire maintenance tips and wheel guides from our automotive blog. Learn about pressure, sizing, and safety to maximize your vehicle's performance.",
   },
   twitter: {

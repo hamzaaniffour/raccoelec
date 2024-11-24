@@ -96,10 +96,12 @@
 
 .active {
   font-size: 1.3rem !important;
-  /* @apply text-[#1523dc]; */
-  /* @apply !text-xl;
-  @apply size-8; */
   font-weight: bold;
+  color: #1523dc; /* Blue color for active step */
+}
+
+.inactive {
+  color: gray; /* Gray color for inactive steps */
 }
 
 .viab:hover {
