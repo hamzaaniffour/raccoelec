@@ -217,7 +217,6 @@ export default async function DynamicPage({ params }: Props) {
   );
 }
 
-// This function is used for static generation of the pages at build time
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
   return slugs.map((slug) => ({ slug: slug.split("/") }));
