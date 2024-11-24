@@ -2,15 +2,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import emailjs from "emailjs-com";
 import { PiPassword, PiUsersThreeLight } from "react-icons/pi";
-import { IoMailOutline } from "react-icons/io5";
+import { IoFolderOpenOutline, IoMailOutline } from "react-icons/io5";
 import { SlLocationPin } from "react-icons/sl";
 import { FiUser } from "react-icons/fi";
 import { AiOutlineUserSwitch } from "react-icons/ai";
 import { FaRegSquare } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { LuFileCheck2 } from "react-icons/lu";
+import { IoMdPaper } from "react-icons/io";
+import { FaRegPenToSquare } from "react-icons/fa6";
 
 const Branchement = () => {
   const [currentForm, setCurrentForm] = useState("first_form");
   const [activeSteps, setActiveSteps] = useState<string[]>(["sp1"]);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     step1: {
       radio: "",
@@ -30,9 +35,6 @@ const Branchement = () => {
       facultatif: "",
       Voie: "",
       cadastral: "",
-      terrain: "",
-      number: "",
-      Option1: false,
       referenceBranchement: Array(14).fill(""),
     },
     step4: {
@@ -53,9 +55,6 @@ const Branchement = () => {
     codePostal: "",
     Commune: "",
     Voie: "",
-    terrain: "",
-    number: "",
-    portesFenetres: "",
     echeance: "",
     autorisation: "",
     referenceBranchement: "", // Add this line for the 14 inputs validation
@@ -151,9 +150,6 @@ const Branchement = () => {
       codePostal: "",
       Commune: "",
       Voie: "",
-      terrain: "",
-      number: "",
-      portesFenetres: "",
       echeance: "",
       autorisation: "",
       referenceBranchement: "", // Add this line for the 14 inputs validation
@@ -210,23 +206,12 @@ const Branchement = () => {
         newErrors.Voie = "Please enter your voie";
         valid = false;
       }
-      if (!formData.step3.terrain) {
-        newErrors.terrain = "Please select an option";
-        valid = false;
-      }
-      if (!formData.step3.number) {
-        newErrors.number = "Please select a number";
-        valid = false;
-      }
       if (formData.step3.referenceBranchement.some((value) => value === "")) {
-        newErrors.referenceBranchement = "Please fill all the reference branchement fields";
+        newErrors.referenceBranchement =
+          "Please fill all the reference branchement fields";
         valid = false;
       }
     } else if (currentForm === "four_form") {
-      if (!formData.step4.portesFenetres) {
-        newErrors.portesFenetres = "Please select an option";
-        valid = false;
-      }
       if (!formData.step4.echeance) {
         newErrors.echeance = "Please select an option";
         valid = false;
@@ -261,25 +246,18 @@ const Branchement = () => {
       facultatif: formData.step3.facultatif || "",
       voie: formData.step3.Voie || "",
       cadastral: formData.step3.cadastral || "",
-      terrain: formData.step3.terrain || "",
-      number: formData.step3.number || "",
-      option1: formData.step3.Option1 ? "Yes" : "No",
       reference_branchement: formData.step3.referenceBranchement.join(""),
-      portes_fenetres: formData.step4.portesFenetres || "",
-      echeance: formData.step4.echeance || "",
-      autorisation: formData.step4.autorisation || "",
     };
 
     emailjs
       .send(
         "service_6sps6uk", // Your EmailJS service ID
-        "template_nozgngn", // Your EmailJS template ID
+        "template_1cydygg", // Your EmailJS template ID
         templateParams,
         "wCf8NPlGHcIFcquBX" // Your EmailJS user ID
       )
       .then((response) => {
-        console.log("Email sent successfully:", response);
-        alert("Form submitted successfully!");
+        router.push("/")
         localStorage.removeItem("formData"); // Optionally clear form data after submission
       })
       .catch((error) => {
@@ -313,7 +291,7 @@ const Branchement = () => {
   return (
     <div className="flex justify-center items-center w-full mb-20 mt-20">
       <div className="max-w-[900px] w-full">
-        <div className="mb-8 mt-10">
+      <div className="mb-8 mt-5">
           <div className="flex items-center justify-center mt-10">
             <div className="flex items-center text-blue-700 space-x-7">
               <div
@@ -322,7 +300,12 @@ const Branchement = () => {
                 }`}
                 id="sp1"
               >
-                Pour commencer
+                <IoMdPaper
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp1") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Pour commencer</span>
               </div>
               <span>&gt;</span>
               <div
@@ -331,7 +314,12 @@ const Branchement = () => {
                 }`}
                 id="sp2"
               >
-                Mon projet
+                <IoFolderOpenOutline
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp2") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Mon Project</span>
               </div>
               <span>&gt;</span>
               <div
@@ -340,7 +328,12 @@ const Branchement = () => {
                 }`}
                 id="sp3"
               >
-                Mon planning
+                <FaRegPenToSquare
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp2") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Mon planning</span>
               </div>
               <span>&gt;</span>
               <div
@@ -349,7 +342,12 @@ const Branchement = () => {
                 }`}
                 id="sp4"
               >
-                Récapitulatif
+                <LuFileCheck2
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp1") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Récapitulatif</span>
               </div>
             </div>
           </div>
@@ -1103,18 +1101,18 @@ const Branchement = () => {
                 </p>
               </div>
               <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-12">
-              {Array.from({ length: 14 }).map((_, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  maxLength={1}
-                  className="w-full h-12 border rounded-lg text-center text-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  ref={(el) => {
-                    inputsRef.current[index] = el!;
-                  }}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                />
-              ))}
+                {Array.from({ length: 14 }).map((_, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    maxLength={1}
+                    className="w-full h-12 border rounded-lg text-center text-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    ref={(el) => {
+                      inputsRef.current[index] = el!;
+                    }}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                  />
+                ))}
               </div>
               {errors.referenceBranchement && (
                 <p className="text-red-500">{errors.referenceBranchement}</p>
@@ -1200,7 +1198,9 @@ const Branchement = () => {
                 <li className="flex justify-start items-center gap-3 mb-3">
                   <PiPassword className="size-9 inline-block text-slate-500" />
                   Référence de branchement:{" "}
-                  <span className="capitalize font-bold text-[#1523dc]">{formData.step3.referenceBranchement}</span>
+                  <span className="capitalize font-bold text-[#1523dc]">
+                    {formData.step3.referenceBranchement}
+                  </span>
                 </li>
               </ul>
             </div>

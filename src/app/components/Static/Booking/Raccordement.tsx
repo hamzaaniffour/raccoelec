@@ -17,10 +17,12 @@ import { LiaCompressArrowsAltSolid } from "react-icons/lia";
 import { GrUserPolice } from "react-icons/gr";
 import { IoMdPaper } from "react-icons/io";
 import { FaRegPenToSquare } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 const Raccordement = () => {
   const [currentForm, setCurrentForm] = useState("first_form");
   const [activeSteps, setActiveSteps] = useState<string[]>(["sp1"]);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     step1: {
       radio: "",
@@ -90,10 +92,13 @@ const Raccordement = () => {
     deactivateStep: string
   ) => {
     if (validateForm()) {
+      // Update the current form
       setCurrentForm(targetForm);
-      setActiveSteps((prev) =>
-        prev.filter((step) => step !== deactivateStep).concat(activateStep)
-      );
+
+      // Update activeSteps to ensure only the current step is active
+      setActiveSteps([activateStep]); // Only keep the current step active
+
+      // Save form data to local storage
       localStorage.setItem("formData", JSON.stringify(formData));
     }
   };
@@ -316,8 +321,7 @@ const Raccordement = () => {
         "wCf8NPlGHcIFcquBX" // Your EmailJS user ID
       )
       .then((response) => {
-        console.log("Email sent successfully:", response);
-        alert("Form submitted successfully!");
+        router.push("/")
         localStorage.removeItem("formData"); // Optionally clear form data after submission
       })
       .catch((error) => {
@@ -632,14 +636,13 @@ const Raccordement = () => {
                 </div>
                 <div className="flex justify-center items-center w-full mt-12">
                   <button
-                    id="submit_first_button"
                     onClick={() =>
                       handleFormSwitch("second_form", "sp2", "sp1")
                     }
                     type="button"
                     className="stepper-title rounded-full py-3 px-20 text-white bg-[#16a974]"
                   >
-                    Continuer
+                    Continue
                   </button>
                 </div>
               </form>
@@ -928,12 +931,11 @@ const Raccordement = () => {
                     Precedent
                   </button>
                   <button
-                    id="next1"
                     onClick={() => handleFormSwitch("three_form", "sp3", "sp2")}
                     type="button"
                     className="bg-[#16a974] border-[1px] border-[#16a974] rounded-full text-white py-2.5 px-10 text-md font-semibold"
                   >
-                    Continuer
+                    Continue
                   </button>
                 </div>
               </fieldset>
@@ -1210,8 +1212,7 @@ const Raccordement = () => {
                 Précédent
               </button>
               <button
-                id="next2"
-                onClick={() => handleFormSwitch("four_form", "sp3", "sp4")}
+                onClick={() => handleFormSwitch("four_form", "sp3", "sp2")}
                 type="button"
                 className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
               >
@@ -1441,14 +1442,14 @@ const Raccordement = () => {
               <button
                 id="prev3"
                 type="button"
-                onClick={() => handleFormSwitch("three_form", "sp5", "sp4")}
+                onClick={() => handleFormSwitch("three_form", "sp3", "sp2")}
                 className="bg-white border-[1px] border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
               >
                 Précédent
               </button>
               <button
                 id="next3"
-                onClick={() => handleFormSwitch("five_form", "sp4", "sp5")}
+                onClick={() => handleFormSwitch("five_form", "sp4", "sp3")}
                 type="button"
                 className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
               >

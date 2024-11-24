@@ -2,17 +2,21 @@
 import React, { useEffect, useState } from "react";
 import emailjs from "emailjs-com";
 import { PiUsersThreeLight } from "react-icons/pi";
-import { IoMailOutline } from "react-icons/io5";
+import { IoFolderOpenOutline, IoMailOutline } from "react-icons/io5";
 import { SlLocationPin } from "react-icons/sl";
-import { LuDoorOpen } from "react-icons/lu";
+import { LuDoorOpen, LuFileCheck2 } from "react-icons/lu";
 import { FiUser } from "react-icons/fi";
 import { AiOutlineUserSwitch } from "react-icons/ai";
 import { FaRegSquare } from "react-icons/fa";
 import { LiaCompressArrowsAltSolid } from "react-icons/lia";
+import { useRouter } from "next/navigation";
+import { FaRegPenToSquare } from "react-icons/fa6";
+import { IoMdPaper } from "react-icons/io";
 
 const Raccordement = () => {
   const [currentForm, setCurrentForm] = useState("first_form");
   const [activeSteps, setActiveSteps] = useState<string[]>(["sp1"]);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     step1: {
       radio: "",
@@ -77,11 +81,14 @@ const Raccordement = () => {
     deactivateStep: string
   ) => {
     if (validateForm()) {
+      // Update the current form
       setCurrentForm(targetForm);
-      setActiveSteps((prev) =>
-        prev.filter((step) => step !== deactivateStep).concat(activateStep)
-      );
-      localStorage.setItem("formData", JSON.stringify(formData)); // Save before switching
+
+      // Update activeSteps to ensure only the current step is active
+      setActiveSteps([activateStep]); // Only keep the current step active
+
+      // Save form data to local storage
+      localStorage.setItem("formData", JSON.stringify(formData));
     }
   };
 
@@ -285,8 +292,7 @@ const Raccordement = () => {
         "wCf8NPlGHcIFcquBX" // Your EmailJS user ID
       )
       .then((response) => {
-        console.log("Email sent successfully:", response);
-        alert("Form submitted successfully!");
+        router.push("/")
         localStorage.removeItem("formData"); // Optionally clear form data after submission
       })
       .catch((error) => {
@@ -306,7 +312,7 @@ const Raccordement = () => {
   return (
     <div className="flex justify-center items-center w-full mb-20 mt-20">
       <div className="max-w-[900px] w-full">
-        <div className="mb-8 mt-10">
+      <div className="mb-8 mt-5">
           <div className="flex items-center justify-center mt-10">
             <div className="flex items-center text-blue-700 space-x-7">
               <div
@@ -315,7 +321,12 @@ const Raccordement = () => {
                 }`}
                 id="sp1"
               >
-                Pour commencer
+                <IoMdPaper
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp1") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Pour commencer</span>
               </div>
               <span>&gt;</span>
               <div
@@ -324,7 +335,12 @@ const Raccordement = () => {
                 }`}
                 id="sp2"
               >
-                Mon projet
+                <IoFolderOpenOutline
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp2") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Mon Project</span>
               </div>
               <span>&gt;</span>
               <div
@@ -333,7 +349,12 @@ const Raccordement = () => {
                 }`}
                 id="sp3"
               >
-                Mon planning
+                <FaRegPenToSquare
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp2") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Mon planning</span>
               </div>
               <span>&gt;</span>
               <div
@@ -342,7 +363,12 @@ const Raccordement = () => {
                 }`}
                 id="sp4"
               >
-                Récapitulatif
+                <LuFileCheck2
+                  className={`size-5 inline-block lg:hidden ${
+                    activeSteps.includes("sp1") ? "active" : ""
+                  }`}
+                />{" "}
+                <span className="hidden lg:inline-block">Récapitulatif</span>
               </div>
             </div>
           </div>
@@ -989,7 +1015,7 @@ const Raccordement = () => {
               </div>
             </fieldset>
             <div className="flex justify-end items-center gap-3 mt-10">
-              <button
+            <button
                 id="prev2"
                 onClick={() => handleFormSwitch("second_form", "sp2", "sp3")}
                 type="button"
@@ -998,8 +1024,7 @@ const Raccordement = () => {
                 Précédent
               </button>
               <button
-                id="next2"
-                onClick={() => handleFormSwitch("four_form", "sp4", "sp3")}
+                onClick={() => handleFormSwitch("four_form", "sp3", "sp2")}
                 type="button"
                 className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
               >
@@ -1093,19 +1118,23 @@ const Raccordement = () => {
 
               {/* Navigation buttons */}
               <div className="flex justify-center space-x-4">
-                <button
-                  className="bg-white border border-gray-300 rounded-full text-gray-800 stepper-title py-3 px-10"
-                  onClick={() => handleFormSwitch("three_form", "sp3", "sp4")}
-                >
-                  Précédent
-                </button>
+              <button
+                id="prev3"
+                type="button"
+                onClick={() => handleFormSwitch("three_form", "sp3", "sp2")}
+                className="bg-white border-[1px] border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
+              >
+                Précédent
+              </button>
 
                 <button
-                  className="stepper-title rounded-full py-3 px-10 text-white bg-[#16a974]"
-                  onClick={() => handleContinue()} // Updated to call handleContinue instead of handleFormSwitch
-                >
-                  Continuer
-                </button>
+                id="next3"
+                onClick={() => handleFormSwitch("five_form", "sp4", "sp3")}
+                type="button"
+                className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
+              >
+                Suivant
+              </button>
               </div>
             </div>
           </div>
@@ -1185,11 +1214,11 @@ const Raccordement = () => {
               </ul>
             </div>
             <div className="flex justify-end items-center gap-3 mt-10">
-              <button
+            <button
                 id="prev4"
                 onClick={() => handleFormSwitch("four_form", "sp4", "sp5")}
                 type="button"
-                className="bg-white border-[1px] border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
+                className="bg-white border-[1px] w-full lg:w-auto border-[#16a974] rounded text-[#16a974] py-2.5 px-10 text-md font-semibold"
               >
                 Précédent
               </button>
@@ -1197,7 +1226,7 @@ const Raccordement = () => {
                 id="submit"
                 type="button"
                 onClick={sendEmail}
-                className="bg-blue-600 border-[1px] border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
+                className="bg-blue-600 border-[1px] w-full lg:w-auto border-blue-600 rounded text-white py-2.5 px-10 text-md font-semibold"
               >
                 Transmettre ma demande
               </button>

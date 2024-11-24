@@ -104,6 +104,17 @@
   color: gray; /* Gray color for inactive steps */
 }
 
+.step {
+  color: gray;
+  font-size: 16px;
+}
+
+.step.active {
+  color: blue;
+  font-weight: bold;
+}
+
+
 .viab:hover {
   transform: translate(0, -10px) !important;
 }
